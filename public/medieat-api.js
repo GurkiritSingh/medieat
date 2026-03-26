@@ -1,158 +1,279 @@
 // ============================================================
-// MediEat — Frontend API Client
-// Drop this into your HTML: <script src="medieat-api.js"></script>
+// MediEat — Direct Supabase Client (runs in browser)
 // ============================================================
 
-const API_BASE = window.location.origin;
+const SUPABASE_URL = 'https://qrswutkoygynhtzpxqfi.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyc3d1dGtveWd5bmh0enB4cWZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MjQ3MTcsImV4cCI6MjA5MDEwMDcxN30.ITBPc-Qm2LlSk4asrXUfor9JFSZ95iT3AYJ6Cm-vlPY';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const MediEatAPI = {
-    token: localStorage.getItem('medieat_token') || null,
-
-    // -- Internal helpers --
-    _headers() {
-        const h = { 'Content-Type': 'application/json' };
-        if (this.token) h['Authorization'] = `Bearer ${this.token}`;
-        return h;
-    },
-
-    async _request(method, path, body = null) {
-        const opts = { method, headers: this._headers() };
-        if (body) opts.body = JSON.stringify(body);
-
-        const res = await fetch(`${API_BASE}${path}`, opts);
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error || 'Request failed');
-        return data;
-    },
 
     // ========================================================
     // AUTH
     // ========================================================
     async signUp(email, password, displayName) {
-        const data = await this._request('POST', '/api/auth/signup', {
-            email, password, display_name: displayName
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: { data: { display_name: displayName } }
         });
-        if (data.session) {
-            this.token = data.session.access_token;
-            localStorage.setItem('medieat_token', this.token);
-        }
+        if (error) throw new Error(error.message);
         return data;
     },
 
     async signIn(email, password) {
-        const data = await this._request('POST', '/api/auth/signin', {
-            email, password
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
         });
-        if (data.session) {
-            this.token = data.session.access_token;
-            localStorage.setItem('medieat_token', this.token);
-        }
+        if (error) throw new Error(error.message);
         return data;
     },
 
     async signOut() {
-        await this._request('POST', '/api/auth/signout');
-        this.token = null;
-        localStorage.removeItem('medieat_token');
+        const { error } = await supabase.auth.signOut();
+        if (error) throw new Error(error.message);
     },
 
     async getMe() {
-        return this._request('GET', '/api/auth/me');
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) throw new Error(error.message);
+        return { user };
     },
 
     isLoggedIn() {
-        return !!this.token;
+        return !!supabase.auth.getSession();
     },
 
-    // ========================================================
-    // PROFILE
-    // ========================================================
-    async getProfile() {
-        return this._request('GET', '/api/profile');
-    },
-
-    async updateProfile(displayName, avatarUrl) {
-        return this._request('PUT', '/api/profile', {
-            display_name: displayName, avatar_url: avatarUrl
-        });
+    async isLoggedInAsync() {
+        const { data: { session } } = await supabase.auth.getSession();
+        return !!session;
     },
 
     // ========================================================
     // HEALTH PROFILE
     // ========================================================
     async getHealthProfile() {
-        return this._request('GET', '/api/health-profile');
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return null;
+
+        const { data, error } = await supabase
+            .from('health_profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .single();
+
+        if (error && error.code !== 'PGRST116') throw new Error(error.message);
+        return data || null;
     },
 
     async saveHealthProfile(profile) {
-        // profile = { conditions, allergies, custom_allergies, favorite_foods,
-        //             diet_preference, calorie_target, meal_count, cuisines,
-        //             macro_targets, macro_goals }
-        return this._request('PUT', '/api/health-profile', profile);
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { data, error } = await supabase
+            .from('health_profiles')
+            .upsert({
+                user_id: user.id,
+                conditions: profile.conditions || [],
+                allergies: profile.allergies || [],
+                custom_allergies: profile.custom_allergies || [],
+                favorite_foods: profile.favorite_foods || [],
+                diet_preference: profile.diet_preference || 'any',
+                calorie_target: profile.calorie_target || 2000,
+                meal_count: profile.meal_count || 4,
+                cuisines: profile.cuisines || [],
+                macro_targets: profile.macro_targets || {},
+                macro_goals: profile.macro_goals || [],
+                updated_at: new Date().toISOString()
+            }, { onConflict: 'user_id' })
+            .select()
+            .single();
+
+        if (error) throw new Error(error.message);
+        return data;
     },
 
     // ========================================================
     // MEAL PLANS
     // ========================================================
     async getMealPlans() {
-        return this._request('GET', '/api/meal-plans');
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return [];
+
+        const { data, error } = await supabase
+            .from('meal_plans')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+        if (error) throw new Error(error.message);
+        return data;
     },
 
     async getMealPlan(id) {
-        return this._request('GET', `/api/meal-plans/${id}`);
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { data, error } = await supabase
+            .from('meal_plans')
+            .select('*')
+            .eq('id', id)
+            .eq('user_id', user.id)
+            .single();
+
+        if (error) throw new Error('Plan not found');
+        return data;
     },
 
     async saveMealPlan(name, durationDays, planData, conditions, calorieTarget) {
-        return this._request('POST', '/api/meal-plans', {
-            name, duration_days: durationDays, plan_data: planData,
-            conditions, calorie_target: calorieTarget
-        });
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { data, error } = await supabase
+            .from('meal_plans')
+            .insert({
+                user_id: user.id,
+                name: name || 'Untitled Plan',
+                duration_days: durationDays,
+                plan_data: planData,
+                conditions: conditions || [],
+                calorie_target: calorieTarget
+            })
+            .select()
+            .single();
+
+        if (error) throw new Error(error.message);
+        return data;
     },
 
     async deleteMealPlan(id) {
-        return this._request('DELETE', `/api/meal-plans/${id}`);
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { error } = await supabase
+            .from('meal_plans')
+            .delete()
+            .eq('id', id)
+            .eq('user_id', user.id);
+
+        if (error) throw new Error(error.message);
     },
 
     // ========================================================
     // SAVED MEALS
     // ========================================================
     async getSavedMeals() {
-        return this._request('GET', '/api/saved-meals');
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return [];
+
+        const { data, error } = await supabase
+            .from('saved_meals')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+        if (error) throw new Error(error.message);
+        return data;
     },
 
     async saveMeal(mealName, mealType, mealData, tags) {
-        return this._request('POST', '/api/saved-meals', {
-            meal_name: mealName, meal_type: mealType,
-            meal_data: mealData, tags: tags || []
-        });
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { data, error } = await supabase
+            .from('saved_meals')
+            .insert({
+                user_id: user.id,
+                meal_name: mealName,
+                meal_type: mealType,
+                meal_data: mealData,
+                tags: tags || []
+            })
+            .select()
+            .single();
+
+        if (error) throw new Error(error.message);
+        return data;
     },
 
     async deleteSavedMeal(id) {
-        return this._request('DELETE', `/api/saved-meals/${id}`);
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { error } = await supabase
+            .from('saved_meals')
+            .delete()
+            .eq('id', id)
+            .eq('user_id', user.id);
+
+        if (error) throw new Error(error.message);
     },
 
     // ========================================================
     // GROCERY LISTS
     // ========================================================
     async getGroceryLists() {
-        return this._request('GET', '/api/grocery-lists');
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return [];
+
+        const { data, error } = await supabase
+            .from('grocery_lists')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+        if (error) throw new Error(error.message);
+        return data;
     },
 
     async saveGroceryList(items, mealPlanId) {
-        return this._request('POST', '/api/grocery-lists', {
-            items, meal_plan_id: mealPlanId || null
-        });
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { data, error } = await supabase
+            .from('grocery_lists')
+            .insert({
+                user_id: user.id,
+                meal_plan_id: mealPlanId || null,
+                items: items || []
+            })
+            .select()
+            .single();
+
+        if (error) throw new Error(error.message);
+        return data;
     },
 
     async updateGroceryList(id, items) {
-        return this._request('PUT', `/api/grocery-lists/${id}`, { items });
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { data, error } = await supabase
+            .from('grocery_lists')
+            .update({ items })
+            .eq('id', id)
+            .eq('user_id', user.id)
+            .select()
+            .single();
+
+        if (error) throw new Error(error.message);
+        return data;
     },
 
     async deleteGroceryList(id) {
-        return this._request('DELETE', `/api/grocery-lists/${id}`);
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not logged in');
+
+        const { error } = await supabase
+            .from('grocery_lists')
+            .delete()
+            .eq('id', id)
+            .eq('user_id', user.id);
+
+        if (error) throw new Error(error.message);
     }
 };
 
-// Make globally available
 window.MediEatAPI = MediEatAPI;

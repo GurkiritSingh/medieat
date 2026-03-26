@@ -107,7 +107,8 @@ function updateAuthUI(loggedIn, name) {
 // HEALTH PROFILE SYNC
 // ============================================================
 async function loadHealthProfile() {
-    if (!MediEatAPI.isLoggedIn()) return;
+    const loggedIn = await MediEatAPI.isLoggedInAsync();
+    if (!loggedIn) return;
 
     try {
         const profile = await MediEatAPI.getHealthProfile();
@@ -189,7 +190,8 @@ async function loadHealthProfile() {
 }
 
 async function saveHealthProfile() {
-    if (!MediEatAPI.isLoggedIn()) return;
+    const loggedIn = await MediEatAPI.isLoggedInAsync();
+    if (!loggedIn) return;
 
     try {
         await MediEatAPI.saveHealthProfile({
@@ -213,7 +215,8 @@ async function saveHealthProfile() {
 // MEAL PLAN CLOUD SAVE/LOAD
 // ============================================================
 async function savePlanToCloud() {
-    if (!MediEatAPI.isLoggedIn()) {
+    const loggedIn = await MediEatAPI.isLoggedInAsync();
+    if (!loggedIn) {
         openAuthModal();
         return;
     }
@@ -354,16 +357,14 @@ window.generateMealPlan = function() {
 // INIT — check login state on page load
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
-    if (MediEatAPI.isLoggedIn()) {
+    const loggedIn = await MediEatAPI.isLoggedInAsync();
+    if (loggedIn) {
         try {
             const { user } = await MediEatAPI.getMe();
             const name = user.user_metadata?.display_name || user.email?.split('@')[0] || 'User';
             updateAuthUI(true, name);
             loadHealthProfile();
         } catch (err) {
-            // Token expired
-            MediEatAPI.token = null;
-            localStorage.removeItem('medieat_token');
             updateAuthUI(false);
         }
     }
