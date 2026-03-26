@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediEat — Smart Dietary Planning</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0077b6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MediEat">
+    <link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body>
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            <h2 id="authModalTitle">Sign In</h2>
+            <p class="modal-subtitle" id="authModalSubtitle">Save your plans and sync across devices</p>
+            <div id="authError" class="auth-error" style="display:none"></div>
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <div class="auth-field" id="nameField" style="display:none">
+                    <label>Display Name</label>
+                    <input type="text" id="authName" placeholder="Your name">
+                </div>
+                <div class="auth-field">
+                    <label>Email</label>
+                    <input type="email" id="authEmail" placeholder="you@example.com" required>
+                </div>
+                <div class="auth-field">
+                    <label>Password</label>
+                    <input type="password" id="authPassword" placeholder="Min 6 characters" required minlength="6">
+                </div>
+                <button type="submit" class="btn-auth" id="authSubmitBtn">Sign In</button>
+            </form>
+            <p class="auth-switch">
+                <span id="authSwitchText">Don't have an account?</span>
+                <a href="#" onclick="toggleAuthMode(event);" id="authSwitchLink">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Saved Plans Modal -->
+    <div class="modal-overlay" id="savedPlansModal">
+        <div class="modal modal-wide">
+            <button class="modal-close" onclick="closeSavedPlansModal()">&times;</button>
+            <h2>Saved Meal Plans</h2>
+            <div id="savedPlansList" class="saved-plans-list">
+                <p class="loading-text">Loading your plans...</p>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">&#9879;</span>
+                <h1>MedMeal Planner</h1>
+            </div>
+            <p class="tagline">Personalized meal plans for your health needs</p>
+            <!-- User Auth Bar -->
+            <div class="auth-bar">
+                <div id="authBarLoggedOut">
+                    <button class="btn-header" onclick="openAuthModal()">Sign In</button>
+                </div>
+                <div id="authBarLoggedIn" style="display:none">
+                    <span class="user-greeting" id="userGreeting"></span>
+                    <button class="btn-header btn-header-outline" onclick="openSavedPlansModal()">My Plans</button>
+                    <button class="btn-header btn-header-outline" onclick="handleSignOut()">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Step 1: Conditions -->
+        <section id="step-conditions" class="step active">
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <h2>Select Your Medical Conditions</h2>
+                <p>Choose all that apply so we can tailor your meals accordingly.</p>
+            </div>
+            <div class="conditions-grid" id="conditionsGrid"></div>
+            <button class="btn-next" onclick="goToStep(2)">Next &rarr;</button>
+        </section>
+
+        <!-- Step 2: Allergies -->
+        <section id="step-allergies" class="step">
+            <div class="step-header">
+                <span class="step-number">2</span>
+                <h2>Allergies &amp; Intolerances</h2>
+                <p>Select any foods you need to avoid.</p>
+            </div>
+            <div class="allergies-grid" id="allergiesGrid"></div>
+            <div class="custom-allergy">
+                <input type="text" id="customAllergy" placeholder="Add custom allergy...">
+                <button onclick="addCustomAllergy()">+ Add</button>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="goToStep(1)">&larr; Back</button>
+                <button class="btn-next" onclick="goToStep(3)">Next &rarr;</button>
+            </div>
+        </section>
+
+        <!-- Step 3: Favorite Foods  -->
+        <section id="step-favorites" class="step">
+            <div class="step-header">
+                <span class="step-number">3</span>
+                <h2>Foods You Enjoy</h2>
+                <p>Add foods you love and we'll prioritize meals that include them.</p>
+            </div>
+            <div class="favorites-input">
+                <input type="text" id="favFoodInput" placeholder="e.g. chicken, avocado, rice, salmon...">
+                <button onclick="addFavoriteFood()">+ Add</button>
+            </div>
+            <div class="favorites-tags" id="favoritesContainer"></div>
+            <div class="favorites-suggestions">
+                <p class="suggestion-label">Quick add:</p>
+                <div class="suggestion-chips" id="suggestionChips">
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Chicken</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Salmon</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Rice</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Avocado</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Eggs</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Broccoli</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Sweet Potato</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Oats</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Banana</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Quinoa</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Spinach</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Berries</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Yogurt</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Tofu</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Pasta</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Shrimp</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Beef</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Peanut Butter</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Tomatoes</button>
+                    <button class="suggestion-chip" onclick="quickAddFav(this)">Cheese</button>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="goToStep(2)">&larr; Back</button>
+                <button class="btn-next" onclick="goToStep(4)">Next &rarr;</button>
+            </div>
+        </section>
+
+        <!-- Step 4: Preferences -->
+        <section id="step-preferences" class="step">
+            <div class="step-header">
+                <span class="step-number">4</span>
+                <h2>Your Preferences</h2>
+                <p>Help us fine-tune your plan.</p>
+            </div>
+            <div class="preferences-form">
+                <div class="form-group">
+                    <label>Daily Calorie Target</label>
+                    <div class="calorie-slider">
+                        <input type="range" id="calorieSlider" min="1200" max="3000" value="2000" step="50" oninput="updateCalorieLabel()">
+                        <span id="calorieLabel">2000 kcal</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Number of Meals Per Day</label>
+                    <div class="meal-count-options">
+                        <button class="meal-count-btn" data-count="3" onclick="setMealCount(3)">3 Meals</button>
+                        <button class="meal-count-btn active" data-count="4" onclick="setMealCount(4)">3 Meals + Snack</button>
+                        <button class="meal-count-btn" data-count="5" onclick="setMealCount(5)">3 Meals + 2 Snacks</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Dietary Preference</label>
+                    <div class="diet-options">
+                        <button class="diet-btn active" data-diet="any" onclick="setDiet('any')">No Preference</button>
+                        <button class="diet-btn" data-diet="vegetarian" onclick="setDiet('vegetarian')">Vegetarian</button>
+                        <button class="diet-btn" data-diet="vegan" onclick="setDiet('vegan')">Vegan</button>
+                        <button class="diet-btn" data-diet="pescatarian" onclick="setDiet('pescatarian')">Pescatarian</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cuisine Preferences</label>
+                    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:10px;">Select cuisines you enjoy. Pick multiple or leave blank for all.</p>
+                    <div class="cuisine-grid" id="cuisineGrid">
+                        <button class="cuisine-btn" data-cuisine="western" onclick="toggleCuisine('western', this)"><span class="cuisine-icon">&#127828;</span><span>Western</span></button>
+                        <button class="cuisine-btn" data-cuisine="mediterranean" onclick="toggleCuisine('mediterranean', this)"><span class="cuisine-icon">&#127813;</span><span>Mediterranean</span></button>
+                        <button class="cuisine-btn" data-cuisine="south_asian" onclick="toggleCuisine('south_asian', this)"><span class="cuisine-icon">&#127835;</span><span>South Asian</span></button>
+                        <button class="cuisine-btn" data-cuisine="east_asian" onclick="toggleCuisine('east_asian', this)"><span class="cuisine-icon">&#127843;</span><span>East Asian</span></button>
+                        <button class="cuisine-btn" data-cuisine="japanese" onclick="toggleCuisine('japanese', this)"><span class="cuisine-icon">&#127843;</span><span>Japanese</span></button>
+                        <button class="cuisine-btn" data-cuisine="korean" onclick="toggleCuisine('korean', this)"><span class="cuisine-icon">&#127798;</span><span>Korean</span></button>
+                        <button class="cuisine-btn" data-cuisine="latin" onclick="toggleCuisine('latin', this)"><span class="cuisine-icon">&#127790;</span><span>Latin American</span></button>
+                        <button class="cuisine-btn" data-cuisine="middle_eastern" onclick="toggleCuisine('middle_eastern', this)"><span class="cuisine-icon">&#129385;</span><span>Middle Eastern</span></button>
+                        <button class="cuisine-btn" data-cuisine="african" onclick="toggleCuisine('african', this)"><span class="cuisine-icon">&#127834;</span><span>African</span></button>
+                        <button class="cuisine-btn" data-cuisine="caribbean" onclick="toggleCuisine('caribbean', this)"><span class="cuisine-icon">&#127965;</span><span>Caribbean</span></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Daily Macro Targets</label>
+                    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:14px;">Set your daily targets. Use "Any" for no preference.</p>
+
+                    <div class="macro-target-row">
+                        <span class="macro-target-label"><span class="macro-dot protein"></span> Protein</span>
+                        <input type="range" class="macro-slider" id="proteinSlider" min="0" max="200" value="0" step="10" oninput="updateMacroSlider('protein')">
+                        <span class="macro-target-value" id="proteinValue">Any</span>
+                    </div>
+                    <div class="macro-target-row">
+                        <span class="macro-target-label"><span class="macro-dot carbs"></span> Carbs</span>
+                        <input type="range" class="macro-slider" id="carbsSlider" min="0" max="400" value="0" step="10" oninput="updateMacroSlider('carbs')">
+                        <span class="macro-target-value" id="carbsValue">Any</span>
+                    </div>
+                    <div class="macro-target-row">
+                        <span class="macro-target-label"><span class="macro-dot fat"></span> Fat</span>
+                        <input type="range" class="macro-slider" id="fatSlider" min="0" max="150" value="0" step="5" oninput="updateMacroSlider('fat')">
+                        <span class="macro-target-value" id="fatValue">Any</span>
+                    </div>
+                    <div class="macro-target-row">
+                        <span class="macro-target-label"><span class="macro-dot fiber"></span> Fiber</span>
+                        <input type="range" class="macro-slider" id="fiberSlider" min="0" max="60" value="0" step="5" oninput="updateMacroSlider('fiber')">
+                        <span class="macro-target-value" id="fiberValue">Any</span>
+                    </div>
+                    <div class="macro-target-row">
+                        <span class="macro-target-label"><span class="macro-dot sodium"></span> Sodium</span>
+                        <input type="range" class="macro-slider" id="sodiumSlider" min="0" max="3000" value="0" step="100" oninput="updateMacroSlider('sodium')">
+                        <span class="macro-target-value" id="sodiumValue">Any</span>
+                    </div>
+
+                    <p style="font-size:0.85rem; color:var(--text-light); margin-top:14px; margin-bottom:8px;">Nutrient focus (select any):</p>
+                    <div class="macro-goals-options">
+                        <button class="macro-goal-btn" data-goal="high_iron" onclick="toggleMacroGoal('high_iron', this)">Iron Rich</button>
+                        <button class="macro-goal-btn" data-goal="high_calcium" onclick="toggleMacroGoal('high_calcium', this)">Calcium Rich</button>
+                        <button class="macro-goal-btn" data-goal="high_omega3" onclick="toggleMacroGoal('high_omega3', this)">Omega-3 Rich</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Plan Duration</label>
+                    <div class="duration-options">
+                        <button class="duration-btn" data-days="1" onclick="setDuration(1)">1 Day</button>
+                        <button class="duration-btn" data-days="3" onclick="setDuration(3)">3 Days</button>
+                        <button class="duration-btn active" data-days="7" onclick="setDuration(7)">7 Days</button>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="goToStep(3)">&larr; Back</button>
+                <button class="btn-generate" onclick="generateMealPlan()">&#9879; Generate Meal Plan</button>
+            </div>
+        </section>
+
+        <!-- Step 4: Results -->
+        <section id="step-results" class="step">
+            <div class="step-header">
+                <span class="step-number">&#10003; </span>
+                <h2>Your Personalized Meal Plan</h2>
+                <p id="resultsSummary"></p>
+            </div>
+
+            <div class="results-tabs">
+                <button class="tab-btn active" onclick="switchTab('mealplan')">Meal Plan</button>
+                <button class="tab-btn" onclick="switchTab('nutrition')">Nutrition</button>
+                <button class="tab-btn" onclick="switchTab('grocery')">Grocery List</button>
+                <button class="tab-btn" onclick="switchTab('tips')">Health Tips</button>
+            </div>
+
+            <div id="tab-mealplan" class="tab-content active">
+                <div class="day-selector" id="daySelector"></div>
+                <div id="mealPlanContent"></div>
+            </div>
+
+            <div id="tab-nutrition" class="tab-content">
+                <div id="nutritionContent"></div>
+            </div>
+
+            <div id="tab-grocery" class="tab-content">
+                <div id="groceryContent"></div>
+            </div>
+
+            <div id="tab-tips" class="tab-content">
+                <div id="tipsContent"></div>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-save-plan" onclick="savePlanToCloud()">&#9729; Save to Cloud</button>
+                <button class="btn-print" onclick="window.print()">&#128438; Print Plan</button>
+                <button class="btn-export" onclick="exportPlan()">&#128190; Export as Text</button>
+                <button class="btn-regenerate" onclick="generateMealPlan()">&#8635; Regenerate</button>
+                <button class="btn-back" onclick="goToStep(1)">Start Over</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p><strong>Disclaimer:</strong> This tool provides general dietary suggestions and is not a substitute for professional medical or nutritional advice. Always consult your healthcare provider before making significant dietary changes.</p>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+    <script src="medieat-api.js"></script>
+    <script src="medieat-sync.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+    </script>
+</body>
+</html>
