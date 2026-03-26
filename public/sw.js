@@ -1,10 +1,12 @@
-const CACHE_NAME = 'medieat-v1';
+const CACHE_NAME = 'medieat-v2';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './database.js',
+  './medieat-api.js',
+  './medieat-sync.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
@@ -27,6 +29,15 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  // API calls: always go to network
+  if (url.pathname.startsWith('/api/')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // Everything else: cache first, fallback to network
   event.respondWith(
     caches.match(event.request).then(cached => cached || fetch(event.request))
   );
