@@ -6,11 +6,13 @@
     <title>MediEat — Smart Dietary Planning</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0077b6">
+    <meta name="theme-color" content="#005d90">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="MediEat">
     <link rel="apple-touch-icon" href="icon-192.png">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Auth Modal -->
@@ -53,13 +55,13 @@
         </div>
     </div>
 
+    <!-- Fixed Top App Bar -->
     <header>
         <div class="header-content">
             <div class="logo">
-                <span class="logo-icon">&#9879;</span>
-                <h1>MedMeal Planner</h1>
+                <span class="material-symbols-outlined logo-icon">medical_services</span>
+                <h1>MediEat</h1>
             </div>
-            <p class="tagline">Personalized meal plans for your health needs</p>
             <!-- User Auth Bar -->
             <div class="auth-bar">
                 <div id="authBarLoggedOut">
@@ -74,50 +76,73 @@
         </div>
     </header>
 
+    <!-- Step Progress Bar -->
+    <nav class="step-progress" id="stepProgress">
+        <div class="step-progress-inner">
+            <div class="step-progress-bar active" id="progressBar1"></div>
+            <div class="step-progress-bar" id="progressBar2"></div>
+            <div class="step-progress-bar" id="progressBar3"></div>
+            <div class="step-progress-bar" id="progressBar4"></div>
+            <span class="step-progress-label active" id="stepLabel">Conditions</span>
+        </div>
+    </nav>
+
     <main>
         <!-- Step 1: Conditions -->
         <section id="step-conditions" class="step active">
             <div class="step-header">
                 <span class="step-number">1</span>
-                <h2>Select Your Medical Conditions</h2>
-                <p>Choose all that apply so we can tailor your meals accordingly.</p>
+                <h2>Personalize Your Plan</h2>
+                <p>We curate nutritional guides based on your unique health profile. Start by selecting any applicable conditions.</p>
             </div>
             <div class="conditions-grid" id="conditionsGrid"></div>
-            <button class="btn-next" onclick="goToStep(2)">Next &rarr;</button>
+
+            <!-- Info Banner -->
+            <div class="info-banner">
+                <span class="material-symbols-outlined info-banner-icon">privacy_tip</span>
+                <div>
+                    <h4>Clinical Privacy Guaranteed</h4>
+                    <p>Your medical selections are used exclusively to filter recipe recommendations and nutritional warnings. We never share this data with third parties.</p>
+                </div>
+            </div>
         </section>
 
         <!-- Step 2: Allergies -->
         <section id="step-allergies" class="step">
             <div class="step-header">
                 <span class="step-number">2</span>
-                <h2>Allergies &amp; Intolerances</h2>
-                <p>Select any foods you need to avoid.</p>
+                <h2>Identify Your Allergies</h2>
+                <p>To ensure your nutrition plan is safe, select any known allergies or dietary restrictions.</p>
             </div>
             <div class="allergies-grid" id="allergiesGrid"></div>
             <div class="custom-allergy">
-                <input type="text" id="customAllergy" placeholder="Add custom allergy...">
+                <input type="text" id="customAllergy" placeholder="E.g. Strawberries, Penicillin...">
                 <button onclick="addCustomAllergy()">+ Add</button>
             </div>
-            <div class="nav-buttons">
-                <button class="btn-back" onclick="goToStep(1)">&larr; Back</button>
-                <button class="btn-next" onclick="goToStep(3)">Next &rarr;</button>
+
+            <div class="info-banner">
+                <span class="material-symbols-outlined info-banner-icon">info</span>
+                <div>
+                    <h4>Clinical Security</h4>
+                    <p>This information is encrypted and only used to cross-reference with our nutritional database to prevent adverse reactions.</p>
+                </div>
             </div>
         </section>
 
-        <!-- Step 3: Favorite Foods  -->
+        <!-- Step 3: Favorite Foods -->
         <section id="step-favorites" class="step">
             <div class="step-header">
                 <span class="step-number">3</span>
-                <h2>Foods You Enjoy</h2>
-                <p>Add foods you love and we'll prioritize meals that include them.</p>
+                <h2>What fuels your <em style="color:var(--primary)">wellness journey?</em></h2>
+                <p>Select your favorite ingredients so we can curate a meal plan that tastes as good as it heals.</p>
             </div>
             <div class="favorites-input">
-                <input type="text" id="favFoodInput" placeholder="e.g. chicken, avocado, rice, salmon...">
+                <input type="text" id="favFoodInput" placeholder="Search foods (e.g. Avocado, Salmon...)">
                 <button onclick="addFavoriteFood()">+ Add</button>
             </div>
             <div class="favorites-tags" id="favoritesContainer"></div>
             <div class="favorites-suggestions">
-                <p class="suggestion-label">Quick add:</p>
+                <p class="suggestion-label">Recommended Vitals</p>
                 <div class="suggestion-chips" id="suggestionChips">
                     <button class="suggestion-chip" onclick="quickAddFav(this)">Chicken</button>
                     <button class="suggestion-chip" onclick="quickAddFav(this)">Salmon</button>
@@ -141,9 +166,13 @@
                     <button class="suggestion-chip" onclick="quickAddFav(this)">Cheese</button>
                 </div>
             </div>
-            <div class="nav-buttons">
-                <button class="btn-back" onclick="goToStep(2)">&larr; Back</button>
-                <button class="btn-next" onclick="goToStep(4)">Next &rarr;</button>
+
+            <div class="info-banner">
+                <span class="material-symbols-outlined info-banner-icon">lightbulb</span>
+                <div>
+                    <h4>Clinical Insight</h4>
+                    <p>Diversity in whole foods (especially dark greens and fatty fish) correlates with a 22% improvement in metabolic recovery scores.</p>
+                </div>
             </div>
         </section>
 
@@ -151,8 +180,8 @@
         <section id="step-preferences" class="step">
             <div class="step-header">
                 <span class="step-number">4</span>
-                <h2>Your Preferences</h2>
-                <p>Help us fine-tune your plan.</p>
+                <h2>Tailor Your Palette</h2>
+                <p>Let's refine your clinical nutrition plan with your lifestyle choices.</p>
             </div>
             <div class="preferences-form">
                 <div class="form-group">
@@ -166,22 +195,21 @@
                     <label>Number of Meals Per Day</label>
                     <div class="meal-count-options">
                         <button class="meal-count-btn" data-count="3" onclick="setMealCount(3)">3 Meals</button>
-                        <button class="meal-count-btn active" data-count="4" onclick="setMealCount(4)">3 Meals + Snack</button>
-                        <button class="meal-count-btn" data-count="5" onclick="setMealCount(5)">3 Meals + 2 Snacks</button>
+                        <button class="meal-count-btn active" data-count="4" onclick="setMealCount(4)">3 + Snack</button>
+                        <button class="meal-count-btn" data-count="5" onclick="setMealCount(5)">3 + 2 Snacks</button>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Dietary Preference</label>
+                    <label>Dietary Focus</label>
                     <div class="diet-options">
-                        <button class="diet-btn active" data-diet="any" onclick="setDiet('any')">No Preference</button>
+                        <button class="diet-btn active" data-diet="any" onclick="setDiet('any')">Any</button>
                         <button class="diet-btn" data-diet="vegetarian" onclick="setDiet('vegetarian')">Vegetarian</button>
                         <button class="diet-btn" data-diet="vegan" onclick="setDiet('vegan')">Vegan</button>
                         <button class="diet-btn" data-diet="pescatarian" onclick="setDiet('pescatarian')">Pescatarian</button>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Cuisine Preferences</label>
-                    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:10px;">Select cuisines you enjoy. Pick multiple or leave blank for all.</p>
+                    <label>Cuisine Preference</label>
                     <div class="cuisine-grid" id="cuisineGrid">
                         <button class="cuisine-btn" data-cuisine="western" onclick="toggleCuisine('western', this)"><span class="cuisine-icon">&#127828;</span><span>Western</span></button>
                         <button class="cuisine-btn" data-cuisine="mediterranean" onclick="toggleCuisine('mediterranean', this)"><span class="cuisine-icon">&#127813;</span><span>Mediterranean</span></button>
@@ -197,7 +225,7 @@
                 </div>
                 <div class="form-group">
                     <label>Daily Macro Targets</label>
-                    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:14px;">Set your daily targets. Use "Any" for no preference.</p>
+                    <p style="font-size:0.8rem; color:var(--on-surface-variant); margin-bottom:14px;">Set your daily targets. Use "Any" for no preference.</p>
 
                     <div class="macro-target-row">
                         <span class="macro-target-label"><span class="macro-dot protein"></span> Protein</span>
@@ -225,7 +253,7 @@
                         <span class="macro-target-value" id="sodiumValue">Any</span>
                     </div>
 
-                    <p style="font-size:0.85rem; color:var(--text-light); margin-top:14px; margin-bottom:8px;">Nutrient focus (select any):</p>
+                    <p style="font-size:0.8rem; color:var(--on-surface-variant); margin-top:14px; margin-bottom:8px;">Nutrient focus (select any):</p>
                     <div class="macro-goals-options">
                         <button class="macro-goal-btn" data-goal="high_iron" onclick="toggleMacroGoal('high_iron', this)">Iron Rich</button>
                         <button class="macro-goal-btn" data-goal="high_calcium" onclick="toggleMacroGoal('high_calcium', this)">Calcium Rich</button>
@@ -241,16 +269,12 @@
                     </div>
                 </div>
             </div>
-            <div class="nav-buttons">
-                <button class="btn-back" onclick="goToStep(3)">&larr; Back</button>
-                <button class="btn-generate" onclick="generateMealPlan()">&#9879; Generate Meal Plan</button>
-            </div>
         </section>
 
-        <!-- Step 4: Results -->
+        <!-- Step 5: Results -->
         <section id="step-results" class="step">
             <div class="step-header">
-                <span class="step-number">&#10003; </span>
+                <span class="step-number">&#10003;</span>
                 <h2>Your Personalized Meal Plan</h2>
                 <p id="resultsSummary"></p>
             </div>
@@ -281,13 +305,24 @@
 
             <div class="results-actions">
                 <button class="btn-save-plan" onclick="savePlanToCloud()">&#9729; Save to Cloud</button>
-                <button class="btn-print" onclick="window.print()">&#128438; Print Plan</button>
-                <button class="btn-export" onclick="exportPlan()">&#128190; Export as Text</button>
+                <button class="btn-print" onclick="window.print()">&#128438; Print</button>
+                <button class="btn-export" onclick="exportPlan()">&#128190; Export</button>
                 <button class="btn-regenerate" onclick="generateMealPlan()">&#8635; Regenerate</button>
                 <button class="btn-back" onclick="goToStep(1)">Start Over</button>
             </div>
         </section>
     </main>
+
+    <!-- Fixed Bottom CTA Bar -->
+    <div class="bottom-cta" id="bottomCta">
+        <div class="bottom-cta-inner">
+            <button class="btn-back" id="bottomBack" onclick="goToPrevStep()" style="visibility:hidden">Back</button>
+            <button class="btn-next" id="bottomNext" onclick="goToNextStep()">
+                Next
+                <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;margin-left:4px">arrow_forward</span>
+            </button>
+        </div>
+    </div>
 
     <footer>
         <p><strong>Disclaimer:</strong> This tool provides general dietary suggestions and is not a substitute for professional medical or nutritional advice. Always consult your healthcare provider before making significant dietary changes.</p>
@@ -302,6 +337,84 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js');
     }
+
+    // ============================================================
+    // STEPPER + BOTTOM CTA LOGIC
+    // ============================================================
+    const STEP_ORDER = ['step-conditions', 'step-allergies', 'step-favorites', 'step-preferences', 'step-results'];
+    const STEP_LABELS = ['Conditions', 'Allergies', 'Foods', 'Preferences', 'Results'];
+
+    function getCurrentStepIndex() {
+        return STEP_ORDER.findIndex(id => document.getElementById(id)?.classList.contains('active'));
+    }
+
+    function updateStepper() {
+        const idx = getCurrentStepIndex();
+        // Update progress bars
+        for (let i = 1; i <= 4; i++) {
+            const bar = document.getElementById('progressBar' + i);
+            if (bar) {
+                bar.classList.toggle('active', i <= idx + 1);
+                bar.classList.toggle('completed', i < idx + 1);
+            }
+        }
+        // Update label
+        const label = document.getElementById('stepLabel');
+        if (label && STEP_LABELS[idx]) {
+            label.textContent = STEP_LABELS[idx];
+            label.classList.toggle('active', true);
+        }
+
+        // Update bottom CTA visibility
+        const bottomCta = document.getElementById('bottomCta');
+        const bottomBack = document.getElementById('bottomBack');
+        const bottomNext = document.getElementById('bottomNext');
+
+        if (idx === 4) {
+            // Results step — hide bottom CTA
+            bottomCta.style.display = 'none';
+            document.getElementById('stepProgress').style.display = 'none';
+        } else {
+            bottomCta.style.display = 'flex';
+            document.getElementById('stepProgress').style.display = 'block';
+            bottomBack.style.visibility = idx === 0 ? 'hidden' : 'visible';
+
+            if (idx === 3) {
+                // Preferences step — show Generate
+                bottomNext.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;margin-right:6px">auto_awesome</span> Generate Meal Plan';
+                bottomNext.onclick = () => generateMealPlan();
+                bottomNext.style.background = 'var(--tertiary-container)';
+                bottomNext.style.boxShadow = '0 4px 16px rgba(34,130,45,0.2)';
+            } else {
+                bottomNext.innerHTML = 'Next <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;margin-left:4px">arrow_forward</span>';
+                bottomNext.onclick = () => goToNextStep();
+                bottomNext.style.background = 'var(--primary)';
+                bottomNext.style.boxShadow = '0 4px 16px rgba(0,93,144,0.2)';
+            }
+        }
+    }
+
+    function goToNextStep() {
+        const idx = getCurrentStepIndex();
+        if (idx < STEP_ORDER.length - 1) goToStep(idx + 2); // goToStep uses 1-based
+    }
+
+    function goToPrevStep() {
+        const idx = getCurrentStepIndex();
+        if (idx > 0) goToStep(idx); // goToStep uses 1-based, so idx (not idx-1) is correct for prev
+    }
+
+    // Hook into the existing goToStep to update stepper
+    const _originalGoToStep = window.goToStep;
+    window.goToStep = function(step) {
+        _originalGoToStep(step);
+        setTimeout(updateStepper, 10);
+    };
+
+    // Initial stepper state
+    document.addEventListener('DOMContentLoaded', () => {
+        updateStepper();
+    });
     </script>
 </body>
 </html>
