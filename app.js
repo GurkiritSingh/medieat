@@ -367,16 +367,17 @@ function pickMeal(mealType, targetCals, seed) {
         }
 
         // Macro target scoring — heavily weighted (up to 100 points per macro)
-        // Uses relative scoring: the closer to target, the higher the score
-        // When target is unreachable, still rewards the highest available value
+        // Protein/Fiber: peak at target (small penalty for overshoot, larger for undershoot)
+        // Carbs/Fat: symmetric closeness (over OR under is bad)
+        // Sodium: hard ceiling (under = good, over = bad)
         if (macroTargets.protein > 0) {
             const perMealTarget = macroTargets.protein * share;
-            // Score based on how much protein relative to target (reward higher protein)
-            score += Math.min(100, (m.protein / perMealTarget) * 100);
+            const ratio = m.protein / perMealTarget;
+            if (ratio >= 1) score += 100 - Math.min(50, (ratio - 1) * 30);
+            else score += ratio * 100;
         }
         if (macroTargets.carbs > 0) {
             const perMealTarget = macroTargets.carbs * share;
-            // For carbs, closer to target is better (not over, not under)
             const ratio = m.carbs / perMealTarget;
             score += Math.max(0, 100 - Math.abs(1 - ratio) * 100);
         }
@@ -387,7 +388,9 @@ function pickMeal(mealType, targetCals, seed) {
         }
         if (macroTargets.fiber > 0) {
             const perMealTarget = macroTargets.fiber * share;
-            score += Math.min(100, (m.fiber / perMealTarget) * 100);
+            const ratio = m.fiber / perMealTarget;
+            if (ratio >= 1) score += 100 - Math.min(50, (ratio - 1) * 30);
+            else score += ratio * 100;
         }
         if (macroTargets.sodium > 0) {
             const perMealMax = macroTargets.sodium * share;
