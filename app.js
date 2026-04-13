@@ -416,8 +416,10 @@ function pickMeal(mealType, targetCals, seed) {
     // Sort by score descending
     pool.sort((a, b) => b._score - a._score);
 
-    // Take top candidates and pick pseudo-randomly based on seed
-    const topCandidates = pool.slice(0, Math.max(3, Math.floor(pool.length * 0.5)));
+    // When strict macro targets are set, narrow the candidate pool aggressively
+    const hasStrictTargets = Object.values(macroTargets).some(v => v > 0);
+    const topN = hasStrictTargets ? 2 : Math.max(3, Math.floor(pool.length * 0.5));
+    const topCandidates = pool.slice(0, topN);
     const index = Math.abs(hashSeed(seed)) % topCandidates.length;
     return topCandidates[index];
 }

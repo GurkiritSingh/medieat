@@ -927,6 +927,147 @@ const MEALS = {
 };
 
 // ============================================================
+// ULTRA HIGH PROTEIN MEALS (for serious bulk targets)
+// ============================================================
+MEALS.breakfast.push(
+    {
+        name: 'Mega Protein Breakfast Plate',
+        description: 'Three eggs, four egg whites, lean turkey sausage, cottage cheese, and Greek yogurt with berries. Built for high-protein days.',
+        calories: 560, protein: 70, carbs: 18, fat: 22, fiber: 2, sodium: 580,
+        tags: ['high_protein', 'lean_protein', 'iron_rich', 'calcium_rich'],
+        allergens: ['eggs', 'dairy'],
+        suitable: ['obesity', 'diabetes', 'anemia', 'osteoporosis'],
+        unsuitable: ['kidney_disease', 'cholesterol'],
+        diet: [],
+        cuisine: 'western',
+        ingredients: ['eggs', 'egg whites', 'lean turkey sausage', 'cottage cheese', 'Greek yogurt', 'mixed berries'],
+        category_ingredients: { proteins: ['eggs', 'egg whites', 'lean turkey sausage'], dairy: ['cottage cheese', 'Greek yogurt'], fruits: ['mixed berries'] }
+    }
+);
+
+MEALS.lunch.push(
+    {
+        name: 'Triple Chicken Power Plate',
+        description: 'Three grilled chicken breasts (12 oz total) with quinoa, steamed broccoli, and a light lemon-garlic sauce.',
+        calories: 680, protein: 78, carbs: 50, fat: 14, fiber: 7, sodium: 360,
+        tags: ['high_protein', 'lean_protein', 'iron_rich', 'whole_grains'],
+        allergens: [],
+        suitable: ['obesity', 'diabetes', 'anemia', 'heart_disease', 'cholesterol', 'celiac'],
+        unsuitable: [],
+        diet: [],
+        cuisine: 'western',
+        ingredients: ['chicken breast (3 portions)', 'quinoa', 'broccoli', 'lemon', 'garlic', 'olive oil'],
+        category_ingredients: { proteins: ['chicken breast (3 portions)'], grains: ['quinoa'], vegetables: ['broccoli', 'garlic'], pantry: ['lemon', 'olive oil'] }
+    }
+);
+
+MEALS.dinner.push(
+    {
+        name: 'Steak & Shrimp Surf-and-Turf',
+        description: 'Lean sirloin steak (8 oz) and grilled shrimp (4 oz) with sweet potato and asparagus. Loaded with protein.',
+        calories: 640, protein: 72, carbs: 38, fat: 20, fiber: 7, sodium: 420,
+        tags: ['high_protein', 'iron_rich', 'omega3', 'lean_protein'],
+        allergens: ['shellfish'],
+        suitable: ['obesity', 'diabetes', 'anemia', 'osteoporosis'],
+        unsuitable: ['gout', 'kidney_disease'],
+        diet: [],
+        cuisine: 'western',
+        ingredients: ['sirloin steak (lean)', 'shrimp', 'sweet potato', 'asparagus', 'garlic', 'olive oil'],
+        category_ingredients: { proteins: ['sirloin steak (lean)', 'shrimp'], vegetables: ['sweet potato', 'asparagus', 'garlic'], pantry: ['olive oil'] }
+    },
+    {
+        name: 'Double Salmon & Quinoa Bowl',
+        description: 'Two salmon fillets (12 oz total) over quinoa with edamame, kale, and a tahini drizzle.',
+        calories: 720, protein: 64, carbs: 48, fat: 28, fiber: 9, sodium: 380,
+        tags: ['high_protein', 'omega3', 'iron_rich', 'whole_grains'],
+        allergens: ['fish', 'sesame'],
+        suitable: ['heart_disease', 'cholesterol', 'osteoporosis', 'anemia', 'diabetes'],
+        unsuitable: ['kidney_disease', 'gout'],
+        diet: ['pescatarian'],
+        cuisine: 'mediterranean',
+        ingredients: ['salmon fillets (2)', 'quinoa', 'edamame', 'kale', 'tahini', 'lemon'],
+        category_ingredients: { proteins: ['salmon fillets (2)', 'edamame'], grains: ['quinoa'], vegetables: ['kale'], pantry: ['tahini', 'lemon'] }
+    }
+);
+
+MEALS.snack.push(
+    {
+        name: 'Double Protein Shake',
+        description: 'Two scoops of protein powder blended with milk, banana, and peanut butter.',
+        calories: 380, protein: 50, carbs: 32, fat: 10, fiber: 3, sodium: 220,
+        tags: ['high_protein', 'quick'],
+        allergens: ['dairy', 'peanuts'],
+        suitable: ['obesity', 'diabetes', 'anemia'],
+        unsuitable: ['kidney_disease'],
+        diet: ['vegetarian'],
+        cuisine: 'western',
+        ingredients: ['protein powder (2 scoops)', 'milk', 'banana', 'peanut butter'],
+        category_ingredients: { proteins: ['protein powder (2 scoops)', 'peanut butter'], dairy: ['milk'], fruits: ['banana'] }
+    }
+);
+
+// Recipes for the ultra-high-protein additions
+const ULTRA_PROTEIN_RECIPES = {
+    'Mega Protein Breakfast Plate': {
+        prepTime: '5 min', cookTime: '10 min', servings: 1,
+        ingredientsList: ['3 large eggs', '4 egg whites', '3 oz (85g) lean turkey sausage', '1/2 cup (115g) cottage cheese', '1/2 cup (115g) Greek yogurt', '1/2 cup (75g) mixed berries', 'Cooking spray'],
+        steps: [
+            'Cook turkey sausage in a non-stick pan until browned, 4-5 minutes.',
+            'Whisk eggs and egg whites together with salt and pepper.',
+            'Pour into the same pan and scramble until set.',
+            'Plate the eggs and sausage.',
+            'Serve with cottage cheese on the side and Greek yogurt topped with berries.'
+        ]
+    },
+    'Triple Chicken Power Plate': {
+        prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['3 chicken breasts (12 oz / 340g total)', '3/4 cup (130g) cooked quinoa', '2 cups (180g) broccoli florets', '1 lemon, juiced', '3 garlic cloves, minced', '1 tbsp olive oil', 'Salt and pepper'],
+        steps: [
+            'Season chicken with salt, pepper, garlic, and lemon juice.',
+            'Grill or pan-sear 5-6 minutes per side until cooked through.',
+            'Cook quinoa according to package directions.',
+            'Steam broccoli for 4-5 minutes.',
+            'Slice chicken and serve over quinoa with broccoli on the side.',
+            'Drizzle with olive oil and an extra squeeze of lemon.'
+        ]
+    },
+    'Steak & Shrimp Surf-and-Turf': {
+        prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['8 oz (225g) lean sirloin steak', '4 oz (115g) raw shrimp, peeled', '1 medium sweet potato', '1 bunch (200g) asparagus', '3 garlic cloves, minced', '1 tbsp olive oil', 'Salt and pepper'],
+        steps: [
+            'Preheat oven to 400°F (200°C).',
+            'Pierce sweet potato and bake 40 minutes (or microwave 6-7 minutes).',
+            'Season steak with salt, pepper, and garlic. Grill 4-5 minutes per side for medium.',
+            'Toss shrimp with olive oil, salt, and pepper. Sear 2 minutes per side until pink.',
+            'Steam or roast asparagus 5-6 minutes.',
+            'Plate everything together and serve.'
+        ]
+    },
+    'Double Salmon & Quinoa Bowl': {
+        prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['2 salmon fillets (12 oz / 340g total)', '3/4 cup (130g) cooked quinoa', '1/2 cup (75g) edamame', '2 cups (60g) kale, chopped', '1 tbsp tahini', '1 lemon, juiced', 'Salt and pepper'],
+        steps: [
+            'Preheat oven to 400°F (200°C).',
+            'Season salmon with salt, pepper, and lemon juice. Bake 12-15 minutes.',
+            'Cook quinoa according to package directions.',
+            'Steam edamame for 4 minutes.',
+            'Massage kale with a little olive oil and lemon juice.',
+            'Build bowl: quinoa base, salmon on top, edamame and kale on the sides.',
+            'Drizzle with tahini and serve.'
+        ]
+    },
+    'Double Protein Shake': {
+        prepTime: '3 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['2 scoops (60g) whey protein powder', '1.5 cups (360ml) milk', '1 medium banana', '1 tbsp natural peanut butter'],
+        steps: [
+            'Add all ingredients to a blender.',
+            'Blend on high for 45-60 seconds until smooth.',
+            'Pour and drink immediately.'
+        ]
+    }
+};
+
+// ============================================================
 // CURATED INTERNET RECIPES — Inspired by popular healthy recipe sites
 // ============================================================
 MEALS.lunch.push(
@@ -1237,7 +1378,13 @@ const CUISINE_MAP = {
     'High Protein Tuscan Chicken': 'mediterranean',
     'Sheet Pan Salmon with Potatoes': 'mediterranean',
     'Honey Garlic Salmon': 'east_asian',
-    'EatingWell Grilled Chicken with Peaches': 'mediterranean'
+    'EatingWell Grilled Chicken with Peaches': 'mediterranean',
+    // Ultra high protein
+    'Mega Protein Breakfast Plate': 'western',
+    'Triple Chicken Power Plate': 'western',
+    'Steak & Shrimp Surf-and-Turf': 'western',
+    'Double Salmon & Quinoa Bowl': 'mediterranean',
+    'Double Protein Shake': 'western'
 };
 
 // Apply cuisine tags
@@ -2813,5 +2960,5 @@ const RECIPES = {
     }
 };
 
-// Merge curated internet recipes into the main RECIPES object
-Object.assign(RECIPES, INTERNET_RECIPES);
+// Merge curated internet recipes and ultra-protein recipes into RECIPES
+Object.assign(RECIPES, INTERNET_RECIPES, ULTRA_PROTEIN_RECIPES);
