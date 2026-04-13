@@ -861,7 +861,7 @@ function renderNutrition() {
 // GShop is a separate static React app that reads shopping lists from
 // a base64-encoded ?share= URL parameter. No API calls, no shared secrets.
 // Update this constant to point at your deployed GShop instance.
-const GSHOP_URL = 'https://gshopper.netlify.app';
+const GSHOP_URL = 'https://gurkiritsingh.github.io/GShop';
 
 // Map MedMealPlanner pantry-style categories to GShop's GroceryCategory enum.
 const GSHOP_CATEGORY_MAP = {
