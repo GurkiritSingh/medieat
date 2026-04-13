@@ -11,6 +11,10 @@ let macroGoals = [];
 let macroTargets = { protein: 0, carbs: 0, fat: 0, fiber: 0, sodium: 0 }; // 0 = any
 let selectedCuisines = [];
 let calorieTarget = 2000;
+let mealAlertTimes = JSON.parse(localStorage.getItem('mealAlertTimes') || '{"breakfast":"08:00","lunch":"12:30","dinner":"18:30","snack1":"15:30","snack2":"21:00"}');
+let alertsEnabled = false;
+let alertCheckInterval = null;
+let firedToday = {};
 let mealCount = 4; // 3 meals + 1 snack
 let dietPreference = 'any';
 let planDuration = 7;
@@ -436,6 +440,7 @@ function renderResults() {
     renderNutrition();
     renderGroceryList();
     renderTips();
+    renderAlerts();
 }
 
 function renderSummary() {
@@ -551,9 +556,21 @@ function renderMealCard(type, meal, isSnack) {
                 <span class="recipe-toggle-icon">&#9654;</span> How to Cook (Prep: ${recipe.prepTime} | Cook: ${recipe.cookTime} | Serves: ${recipe.servings})
             </button>
             <div class="recipe-section" id="${recipeId}">
-                <ol class="recipe-steps">
-                    ${recipe.steps.map(step => `<li>${step}</li>`).join('')}
-                </ol>
+                ${recipe.source ? `<div class="recipe-source">Recipe inspired by ${recipe.source}</div>` : ''}
+                ${recipe.ingredientsList ? `
+                    <div class="recipe-ingredients">
+                        <h5>Ingredients</h5>
+                        <ul>
+                            ${recipe.ingredientsList.map(ing => `<li>${ing}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+                <div class="recipe-instructions">
+                    <h5>Instructions</h5>
+                    <ol class="recipe-steps">
+                        ${recipe.steps.map(step => `<li>${step}</li>`).join('')}
+                    </ol>
+                </div>
             </div>
         `;
     }
@@ -794,6 +811,181 @@ function renderTips() {
             <p>${tip.text}</p>
         </div>
     `).join('');
+}
+
+// ============================================================
+// MEAL ALERTS / NOTIFICATIONS
+// ============================================================
+function renderAlerts() {
+    const container = document.getElementById('alertsContent');
+    const snackCount = mealCount - 3;
+    const permission = 'Notification' in window ? Notification.permission : 'unsupported';
+
+    let permissionBadge = '';
+    if (permission === 'unsupported') {
+        permissionBadge = '<div class="alert-warning">Your browser does not support notifications.</div>';
+    } else if (permission === 'denied') {
+        permissionBadge = '<div class="alert-warning">Notifications are blocked. Please enable them in your browser settings.</div>';
+    } else if (permission === 'default') {
+        permissionBadge = '<button class="btn-enable-alerts" onclick="requestAlertPermission()">&#128276; Enable Notifications</button>';
+    } else {
+        permissionBadge = '<div class="alert-success">&#10003; Notifications enabled</div>';
+    }
+
+    let html = `
+        <div class="alerts-intro">
+            <h3>Set Your Meal Reminder Times</h3>
+            <p>Get notified when it's time to eat. Set the time for each meal below.</p>
+            ${permissionBadge}
+        </div>
+        <div class="alert-times">
+            <div class="alert-row">
+                <label>&#127859; Breakfast</label>
+                <input type="time" value="${mealAlertTimes.breakfast}" onchange="updateMealTime('breakfast', this.value)">
+            </div>
+            <div class="alert-row">
+                <label>&#127858; Lunch</label>
+                <input type="time" value="${mealAlertTimes.lunch}" onchange="updateMealTime('lunch', this.value)">
+            </div>
+            <div class="alert-row">
+                <label>&#127869; Dinner</label>
+                <input type="time" value="${mealAlertTimes.dinner}" onchange="updateMealTime('dinner', this.value)">
+            </div>
+    `;
+
+    if (snackCount >= 1) {
+        html += `
+            <div class="alert-row">
+                <label>&#127857; Snack 1</label>
+                <input type="time" value="${mealAlertTimes.snack1}" onchange="updateMealTime('snack1', this.value)">
+            </div>
+        `;
+    }
+    if (snackCount >= 2) {
+        html += `
+            <div class="alert-row">
+                <label>&#127857; Snack 2</label>
+                <input type="time" value="${mealAlertTimes.snack2}" onchange="updateMealTime('snack2', this.value)">
+            </div>
+        `;
+    }
+
+    html += `
+        </div>
+        <div class="alerts-actions">
+            <button class="btn-start-alerts" onclick="startMealAlerts()">${alertsEnabled ? '&#9209; Stop Alerts' : '&#9658; Start Alerts'}</button>
+            <button class="btn-test-alert" onclick="testNotification()">Test Notification</button>
+        </div>
+        <div class="alert-status" id="alertStatus">${alertsEnabled ? "Alerts are running. Today's notifications will fire at the times above." : 'Click "Start Alerts" to begin receiving meal reminders.'}</div>
+        <div class="alert-note">
+            <strong>Note:</strong> Meal alerts only run while this browser tab is open. For the best experience, leave this tab open in the background. Notifications also need to be enabled for this site.
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+function updateMealTime(meal, value) {
+    mealAlertTimes[meal] = value;
+    localStorage.setItem('mealAlertTimes', JSON.stringify(mealAlertTimes));
+}
+
+function requestAlertPermission() {
+    if (!('Notification' in window)) return;
+    Notification.requestPermission().then(perm => {
+        renderAlerts();
+    });
+}
+
+function testNotification() {
+    if (!('Notification' in window)) {
+        alert('Your browser does not support notifications.');
+        return;
+    }
+    if (Notification.permission !== 'granted') {
+        Notification.requestPermission().then(perm => {
+            if (perm === 'granted') sendTestNotification();
+        });
+    } else {
+        sendTestNotification();
+    }
+}
+
+function sendTestNotification() {
+    new Notification('MedMeal Planner', {
+        body: 'Notifications are working! You\'ll get reminders at your scheduled meal times.',
+        icon: ''
+    });
+}
+
+function startMealAlerts() {
+    if (alertsEnabled) {
+        // Stop alerts
+        if (alertCheckInterval) clearInterval(alertCheckInterval);
+        alertCheckInterval = null;
+        alertsEnabled = false;
+        renderAlerts();
+        return;
+    }
+
+    if (!('Notification' in window) || Notification.permission !== 'granted') {
+        Notification.requestPermission().then(perm => {
+            if (perm === 'granted') {
+                alertsEnabled = true;
+                firedToday = {};
+                alertCheckInterval = setInterval(checkMealTimes, 30000); // check every 30s
+                checkMealTimes(); // check immediately
+                renderAlerts();
+            }
+        });
+        return;
+    }
+
+    alertsEnabled = true;
+    firedToday = {};
+    alertCheckInterval = setInterval(checkMealTimes, 30000);
+    checkMealTimes();
+    renderAlerts();
+}
+
+function checkMealTimes() {
+    if (!currentPlan || currentPlan.length === 0) return;
+
+    const now = new Date();
+    const currentTime = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+    const dateKey = now.toDateString();
+
+    // Reset firedToday on a new day
+    if (firedToday._date !== dateKey) {
+        firedToday = { _date: dateKey };
+    }
+
+    // Use today's plan (day 0)
+    const day = currentPlan[0];
+    const mealMap = {
+        breakfast: day.breakfast,
+        lunch: day.lunch,
+        dinner: day.dinner,
+        snack1: day.snacks[0],
+        snack2: day.snacks[1]
+    };
+
+    Object.entries(mealAlertTimes).forEach(([mealKey, scheduledTime]) => {
+        const meal = mealMap[mealKey];
+        if (!meal) return;
+        if (firedToday[mealKey]) return;
+
+        // Fire if current time matches scheduled time (within a 1-minute window)
+        if (currentTime === scheduledTime) {
+            const labels = { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', snack1: 'Snack', snack2: 'Snack' };
+            new Notification(`Time for ${labels[mealKey]}!`, {
+                body: `${meal.name} (${meal.calories} kcal, ${meal.protein}g protein)`,
+                icon: '',
+                requireInteraction: false
+            });
+            firedToday[mealKey] = true;
+        }
+    });
 }
 
 // ============================================================

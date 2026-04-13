@@ -1004,6 +1004,45 @@ main {
     animation: fadeIn 0.3s ease;
 }
 
+.recipe-source {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    background: #fff8e1;
+    border-radius: 6px;
+    border-left: 3px solid #f39c12;
+}
+
+.recipe-ingredients {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed #d0dce6;
+}
+
+.recipe-ingredients h5,
+.recipe-instructions h5 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.recipe-ingredients ul {
+    padding-left: 20px;
+    margin: 0;
+    list-style: disc;
+}
+
+.recipe-ingredients li {
+    padding: 3px 0;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
 .recipe-steps {
     padding-left: 20px;
     margin: 0;
@@ -1044,6 +1083,163 @@ main {
     font-size: 0.8rem;
     font-weight: 600;
     margin-bottom: 8px;
+}
+
+/* Meal Alerts */
+.alerts-intro {
+    background: var(--card);
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.alerts-intro h3 {
+    margin-bottom: 6px;
+    color: var(--primary);
+}
+
+.alerts-intro p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.alert-warning {
+    padding: 10px 14px;
+    background: #fff3cd;
+    color: #856404;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border-left: 3px solid #f39c12;
+}
+
+.alert-success {
+    padding: 10px 14px;
+    background: #d4edda;
+    color: #155724;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn-enable-alerts {
+    padding: 12px 24px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.btn-enable-alerts:hover {
+    background: var(--primary-dark);
+}
+
+.alert-times {
+    background: var(--card);
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+}
+
+.alert-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.alert-row:last-child {
+    border-bottom: none;
+}
+
+.alert-row label {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.alert-row input[type="time"] {
+    padding: 8px 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--card);
+    cursor: pointer;
+}
+
+.alert-row input[type="time"]:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.alerts-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.btn-start-alerts {
+    flex: 1;
+    padding: 14px 24px;
+    background: var(--success);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.btn-start-alerts:hover {
+    background: #247a3a;
+    transform: translateY(-1px);
+}
+
+.btn-test-alert {
+    padding: 14px 24px;
+    background: var(--card);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.btn-test-alert:hover {
+    background: var(--primary-light);
+}
+
+.alert-status {
+    padding: 12px 16px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.alert-note {
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    border-left: 3px solid var(--border);
 }
 
 /* Footer */

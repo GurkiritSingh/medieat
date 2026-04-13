@@ -927,6 +927,247 @@ const MEALS = {
 };
 
 // ============================================================
+// CURATED INTERNET RECIPES — Inspired by popular healthy recipe sites
+// ============================================================
+MEALS.lunch.push(
+    {
+        name: 'Honey Garlic Chicken Meal Prep',
+        description: 'Pan-seared chicken thighs glazed with a sweet honey-garlic-soy sauce, served with brown rice and steamed broccoli. Inspired by Healthy Fitness Meals.',
+        calories: 574, protein: 58, carbs: 46, fat: 18, fiber: 4, sodium: 480,
+        tags: ['high_protein', 'meal_prep', 'lean_protein', 'iron_rich'],
+        allergens: ['soy'],
+        suitable: ['obesity', 'diabetes', 'anemia', 'heart_disease', 'cholesterol'],
+        unsuitable: ['kidney_disease', 'hypertension'],
+        diet: [],
+        cuisine: 'east_asian',
+        ingredients: ['chicken thighs (boneless, skinless)', 'honey', 'soy sauce', 'garlic', 'rice vinegar', 'sesame oil', 'brown rice', 'broccoli'],
+        category_ingredients: { proteins: ['chicken thighs (boneless, skinless)'], grains: ['brown rice'], vegetables: ['broccoli', 'garlic'], pantry: ['honey', 'soy sauce', 'rice vinegar', 'sesame oil'] }
+    },
+    {
+        name: 'Healthy Sesame Chicken',
+        description: 'Better-than-takeout sesame chicken with a light, sweet-savory sauce, sesame seeds, and steamed jasmine rice. Inspired by The Protein Chef.',
+        calories: 333, protein: 37, carbs: 12, fat: 15, fiber: 2, sodium: 420,
+        tags: ['high_protein', 'low_carb', 'lean_protein'],
+        allergens: ['soy', 'sesame'],
+        suitable: ['obesity', 'diabetes', 'anemia', 'heart_disease', 'cholesterol'],
+        unsuitable: ['kidney_disease', 'hypertension'],
+        diet: [],
+        cuisine: 'east_asian',
+        ingredients: ['chicken breast', 'low-sodium soy sauce', 'honey', 'rice vinegar', 'sesame seeds', 'garlic', 'cornstarch', 'green onions'],
+        category_ingredients: { proteins: ['chicken breast'], vegetables: ['garlic', 'green onions'], pantry: ['low-sodium soy sauce', 'honey', 'rice vinegar', 'sesame seeds', 'cornstarch'] }
+    },
+    {
+        name: 'High Protein Tuscan Chicken',
+        description: 'Creamy Tuscan chicken with sun-dried tomatoes, spinach, and garlic in a light cream sauce. Inspired by Joy to the Food.',
+        calories: 527, protein: 61, carbs: 12, fat: 26, fiber: 3, sodium: 460,
+        tags: ['high_protein', 'low_carb', 'iron_rich', 'calcium_rich'],
+        allergens: ['dairy'],
+        suitable: ['obesity', 'diabetes', 'anemia', 'osteoporosis'],
+        unsuitable: ['kidney_disease', 'cholesterol'],
+        diet: [],
+        cuisine: 'mediterranean',
+        ingredients: ['chicken breast', 'sun-dried tomatoes', 'spinach', 'garlic', 'cream cheese (light)', 'parmesan cheese', 'chicken broth', 'Italian herbs', 'olive oil'],
+        category_ingredients: { proteins: ['chicken breast'], vegetables: ['sun-dried tomatoes', 'spinach', 'garlic'], dairy: ['cream cheese (light)', 'parmesan cheese'], pantry: ['chicken broth', 'Italian herbs', 'olive oil'] }
+    }
+);
+
+MEALS.dinner.push(
+    {
+        name: 'Sheet Pan Salmon with Potatoes',
+        description: 'One-pan salmon with baby potatoes and roasted vegetables in a zesty lemon-garlic-Dijon sauce. Inspired by Food by Maria.',
+        calories: 614, protein: 43, carbs: 43, fat: 32, fiber: 6, sodium: 380,
+        tags: ['omega3', 'high_protein', 'one_pan', 'potassium_rich'],
+        allergens: ['fish'],
+        suitable: ['heart_disease', 'cholesterol', 'osteoporosis', 'anemia', 'diabetes', 'hypertension'],
+        unsuitable: ['kidney_disease', 'gout', 'obesity'],
+        diet: ['pescatarian'],
+        cuisine: 'mediterranean',
+        ingredients: ['salmon fillets', 'baby potatoes', 'lemon juice', 'olive oil', 'Dijon mustard', 'dried oregano', 'garlic cloves', 'asparagus', 'salt', 'black pepper'],
+        category_ingredients: { proteins: ['salmon fillets'], vegetables: ['baby potatoes', 'asparagus', 'garlic cloves'], pantry: ['lemon juice', 'olive oil', 'Dijon mustard', 'dried oregano', 'salt', 'black pepper'] }
+    },
+    {
+        name: 'Honey Garlic Salmon',
+        description: 'Quick pan-seared salmon glazed with a 3-ingredient honey-garlic-soy sauce. Inspired by Healthy Fitness Meals.',
+        calories: 314, protein: 35, carbs: 9, fat: 14, fiber: 0, sodium: 360,
+        tags: ['omega3', 'high_protein', 'quick', 'low_carb'],
+        allergens: ['fish', 'soy'],
+        suitable: ['heart_disease', 'cholesterol', 'diabetes', 'obesity', 'anemia'],
+        unsuitable: ['kidney_disease', 'gout', 'hypertension'],
+        diet: ['pescatarian'],
+        cuisine: 'east_asian',
+        ingredients: ['salmon fillets', 'honey', 'low-sodium soy sauce', 'garlic', 'olive oil', 'lemon juice'],
+        category_ingredients: { proteins: ['salmon fillets'], vegetables: ['garlic'], pantry: ['honey', 'low-sodium soy sauce', 'olive oil', 'lemon juice'] }
+    },
+    {
+        name: 'EatingWell Grilled Chicken with Peaches',
+        description: 'Grilled chicken thighs paired with sweet grilled peaches, fresh basil, and a balsamic glaze. Inspired by EatingWell summer dinner.',
+        calories: 342, protein: 33, carbs: 7, fat: 20, fiber: 1, sodium: 320,
+        tags: ['high_protein', 'lean_protein', 'low_carb', 'antioxidants'],
+        allergens: [],
+        suitable: ['obesity', 'diabetes', 'celiac', 'heart_disease', 'anemia', 'gout'],
+        unsuitable: ['kidney_disease'],
+        diet: [],
+        cuisine: 'mediterranean',
+        ingredients: ['chicken thighs (boneless, skinless)', 'fresh peaches', 'fresh basil', 'balsamic vinegar', 'olive oil', 'garlic', 'salt', 'black pepper'],
+        category_ingredients: { proteins: ['chicken thighs (boneless, skinless)'], fruits: ['fresh peaches'], vegetables: ['fresh basil', 'garlic'], pantry: ['balsamic vinegar', 'olive oil', 'salt', 'black pepper'] }
+    }
+);
+
+// Recipes for the curated internet additions
+const INTERNET_RECIPES = {
+    'Honey Garlic Chicken Meal Prep': {
+        prepTime: '10 min', cookTime: '20 min', servings: 4,
+        source: 'Healthy Fitness Meals',
+        ingredientsList: [
+            '1.5 lbs (680g) boneless skinless chicken thighs',
+            '1/3 cup (113g) honey',
+            '1/4 cup (60ml) low-sodium soy sauce',
+            '6 cloves garlic, minced',
+            '2 tbsp rice vinegar',
+            '1 tbsp sesame oil',
+            '2 cups (370g) cooked brown rice',
+            '4 cups (350g) broccoli florets',
+            '1 tbsp olive oil for searing',
+            'Salt and black pepper to taste'
+        ],
+        steps: [
+            'Pat chicken thighs dry and season with salt and pepper.',
+            'In a small bowl, whisk together honey, soy sauce, minced garlic, rice vinegar, and sesame oil.',
+            'Heat olive oil in a large skillet over medium-high heat.',
+            'Add chicken thighs and sear 5-6 minutes per side until golden and cooked through (165°F internal).',
+            'Pour the honey garlic sauce over the chicken and simmer 2-3 minutes until thickened.',
+            'Steam broccoli florets for 4-5 minutes until tender-crisp.',
+            'Divide brown rice, broccoli, and chicken among 4 meal prep containers.',
+            'Drizzle remaining sauce over each portion. Refrigerate up to 4 days.'
+        ]
+    },
+    'Healthy Sesame Chicken': {
+        prepTime: '10 min', cookTime: '15 min', servings: 4,
+        source: 'The Protein Chef',
+        ingredientsList: [
+            '1.5 lbs (680g) chicken breast, cubed',
+            '3 tbsp low-sodium soy sauce',
+            '2 tbsp honey',
+            '2 tbsp rice vinegar',
+            '1 tbsp sesame seeds',
+            '3 cloves garlic, minced',
+            '1 tbsp cornstarch',
+            '2 green onions, sliced',
+            '1 tbsp olive oil',
+            '1/4 cup (60ml) water'
+        ],
+        steps: [
+            'Cube chicken breast into bite-sized pieces.',
+            'In a bowl, whisk soy sauce, honey, rice vinegar, garlic, cornstarch, and water.',
+            'Heat olive oil in a non-stick pan over medium-high heat.',
+            'Add chicken and cook 6-8 minutes, stirring occasionally, until golden and cooked through.',
+            'Pour the sauce over the chicken and stir until thickened, about 2 minutes.',
+            'Sprinkle with sesame seeds and sliced green onions.',
+            'Serve hot, optionally over steamed jasmine rice.'
+        ]
+    },
+    'High Protein Tuscan Chicken': {
+        prepTime: '10 min', cookTime: '20 min', servings: 4,
+        source: 'Joy to the Food',
+        ingredientsList: [
+            '1.5 lbs (680g) chicken breast',
+            '1/2 cup (50g) sun-dried tomatoes, chopped',
+            '4 cups (120g) fresh spinach',
+            '4 cloves garlic, minced',
+            '4 oz (115g) light cream cheese',
+            '1/4 cup (25g) grated parmesan',
+            '1/2 cup (120ml) low-sodium chicken broth',
+            '1 tsp Italian herbs',
+            '2 tbsp olive oil',
+            'Salt and black pepper to taste'
+        ],
+        steps: [
+            'Season chicken breasts with salt, pepper, and Italian herbs.',
+            'Heat olive oil in a large skillet over medium-high heat.',
+            'Sear chicken 5-6 minutes per side until golden and cooked through. Remove and set aside.',
+            'In the same skillet, add minced garlic and sun-dried tomatoes. Cook 1 minute.',
+            'Pour in chicken broth and bring to a simmer, scraping up any brown bits.',
+            'Stir in cream cheese until smooth, then add parmesan.',
+            'Add spinach and stir until wilted, about 2 minutes.',
+            'Return chicken to the pan, spoon sauce over, and simmer 2 more minutes. Serve.'
+        ]
+    },
+    'Sheet Pan Salmon with Potatoes': {
+        prepTime: '15 min', cookTime: '30 min', servings: 4,
+        source: 'Food by Maria',
+        ingredientsList: [
+            '4 salmon fillets (6 oz / 170g each)',
+            '1.5 lbs (680g) baby potatoes, halved',
+            '1 bunch asparagus (about 1 lb / 450g), trimmed',
+            '3 tbsp olive oil',
+            '3 tbsp lemon juice',
+            '2 tbsp Dijon mustard',
+            '1 tsp dried oregano',
+            '4 cloves garlic, minced',
+            '1 tsp salt',
+            '1/2 tsp black pepper',
+            'Lemon wedges for serving'
+        ],
+        steps: [
+            'Preheat oven to 425°F (220°C). Line a sheet pan with parchment paper.',
+            'In a small bowl, whisk olive oil, lemon juice, Dijon mustard, oregano, garlic, salt, and pepper.',
+            'Toss baby potatoes with 1/3 of the sauce and spread on the sheet pan.',
+            'Roast potatoes for 15 minutes.',
+            'Push potatoes to one side. Add salmon fillets and asparagus to the pan.',
+            'Brush salmon and asparagus with the remaining sauce.',
+            'Return to oven and bake 12-15 more minutes, until salmon flakes easily.',
+            'Serve hot with lemon wedges.'
+        ]
+    },
+    'Honey Garlic Salmon': {
+        prepTime: '5 min', cookTime: '10 min', servings: 4,
+        source: 'Healthy Fitness Meals',
+        ingredientsList: [
+            '4 salmon fillets (6 oz / 170g each)',
+            '3 tbsp honey',
+            '3 tbsp low-sodium soy sauce',
+            '4 cloves garlic, minced',
+            '2 tbsp olive oil',
+            '1 tbsp lemon juice',
+            'Salt and black pepper to taste',
+            'Fresh parsley for garnish (optional)'
+        ],
+        steps: [
+            'Pat salmon fillets dry and season with salt and pepper.',
+            'In a small bowl, whisk honey, soy sauce, minced garlic, and lemon juice.',
+            'Heat olive oil in a large skillet over medium-high heat.',
+            'Add salmon skin-side up and sear 4 minutes until golden.',
+            'Flip the salmon and pour the honey garlic sauce over the top.',
+            'Cook 3-4 more minutes, basting with sauce, until salmon flakes easily.',
+            'Garnish with fresh parsley and serve immediately.'
+        ]
+    },
+    'EatingWell Grilled Chicken with Peaches': {
+        prepTime: '10 min', cookTime: '15 min', servings: 4,
+        source: 'EatingWell',
+        ingredientsList: [
+            '1.5 lbs (680g) boneless skinless chicken thighs',
+            '3 ripe peaches, halved and pitted',
+            '1/4 cup (10g) fresh basil leaves',
+            '3 tbsp balsamic vinegar',
+            '2 tbsp olive oil',
+            '2 cloves garlic, minced',
+            '1 tsp salt',
+            '1/2 tsp black pepper'
+        ],
+        steps: [
+            'Preheat grill or grill pan to medium-high heat.',
+            'In a small bowl, whisk balsamic vinegar, 1 tbsp olive oil, minced garlic, salt, and pepper.',
+            'Brush chicken thighs with the remaining olive oil and season with salt and pepper.',
+            'Grill chicken 6-7 minutes per side until charred and cooked through (165°F internal).',
+            'In the last 4 minutes, add peach halves cut-side down to the grill.',
+            'Plate chicken and grilled peaches, drizzle with balsamic glaze.',
+            'Top with torn fresh basil leaves and serve.'
+        ]
+    }
+};
+
+// ============================================================
 // AUTO-TAG EXISTING MEALS WITH CUISINE
 // ============================================================
 const CUISINE_MAP = {
@@ -989,7 +1230,14 @@ const CUISINE_MAP = {
     'Edamame (Steamed)': 'japanese',
     'Trail Mix (Low Sugar)': 'western',
     'Cottage Cheese & Pineapple': 'western',
-    'Oat Energy Balls': 'western'
+    'Oat Energy Balls': 'western',
+    // Internet recipes
+    'Honey Garlic Chicken Meal Prep': 'east_asian',
+    'Healthy Sesame Chicken': 'east_asian',
+    'High Protein Tuscan Chicken': 'mediterranean',
+    'Sheet Pan Salmon with Potatoes': 'mediterranean',
+    'Honey Garlic Salmon': 'east_asian',
+    'EatingWell Grilled Chicken with Peaches': 'mediterranean'
 };
 
 // Apply cuisine tags
@@ -1523,6 +1771,7 @@ const RECIPES = {
     // BREAKFAST
     'Oatmeal with Berries & Walnuts': {
         prepTime: '5 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['1/2 cup (45g) steel-cut oats', '1.5 cups water', '1/2 cup (75g) blueberries', '1/2 cup (75g) strawberries, sliced', '2 tbsp (15g) walnuts, crushed', '1 tsp honey'],
         steps: [
             'Bring 1.5 cups of water to a boil in a small saucepan.',
             'Add 1/2 cup steel-cut oats, reduce heat to low, and simmer for 12-15 minutes, stirring occasionally.',
@@ -1533,6 +1782,7 @@ const RECIPES = {
     },
     'Veggie Egg White Omelette': {
         prepTime: '5 min', cookTime: '8 min', servings: 1,
+        ingredientsList: ['4 egg whites', '1 handful (30g) spinach', '1/4 bell pepper, diced', '2-3 mushrooms, sliced', '2 tbsp (30g) feta cheese, crumbled', '1 tsp olive oil', 'Salt and pepper to taste'],
         steps: [
             'Whisk 4 egg whites with a pinch of salt and pepper.',
             'Heat 1 tsp olive oil in a non-stick pan over medium heat.',
@@ -1544,6 +1794,7 @@ const RECIPES = {
     },
     'Greek Yogurt Parfait': {
         prepTime: '5 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 cup (225g) low-fat Greek yogurt', '1/4 cup (30g) granola', '1/2 cup (75g) mixed berries', '1 tbsp chia seeds', '1 tsp maple syrup'],
         steps: [
             'Spoon half the Greek yogurt into a glass or bowl.',
             'Add a layer of granola and mixed berries.',
@@ -1554,6 +1805,7 @@ const RECIPES = {
     },
     'Avocado Toast with Poached Egg': {
         prepTime: '5 min', cookTime: '5 min', servings: 1,
+        ingredientsList: ['1 slice whole grain bread', '1/2 avocado', '1 large egg', '1 tsp white vinegar (for poaching)', '5-6 cherry tomatoes, halved', 'Pinch of red pepper flakes', 'Salt and pepper'],
         steps: [
             'Toast a slice of whole grain bread until golden.',
             'Mash half an avocado with a fork and spread onto the toast.',
@@ -1565,6 +1817,7 @@ const RECIPES = {
     },
     'Banana Peanut Butter Smoothie': {
         prepTime: '5 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 medium banana', '1 tbsp (16g) natural peanut butter', '1 handful (30g) spinach', '1 cup (240ml) almond milk', '1 tbsp ground flaxseed'],
         steps: [
             'Add 1 banana, 1 tbsp peanut butter, a handful of spinach, and 1 cup almond milk to a blender.',
             'Add 1 tbsp ground flaxseed.',
@@ -1574,6 +1827,7 @@ const RECIPES = {
     },
     'Quinoa Breakfast Bowl': {
         prepTime: '5 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['1/2 cup (85g) quinoa, rinsed', '1 cup (240ml) almond milk', '1/2 tsp cinnamon', '1/2 apple, diced', '1 tbsp pumpkin seeds'],
         steps: [
             'Rinse 1/2 cup quinoa and add to a saucepan with 1 cup almond milk.',
             'Bring to a boil, reduce heat, cover, and simmer 12-15 minutes.',
@@ -1584,6 +1838,7 @@ const RECIPES = {
     },
     'Smoked Salmon on Rice Cakes': {
         prepTime: '5 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['2 brown rice cakes', '2 oz (60g) smoked salmon', '2 tbsp light cream cheese', '1 tsp capers', 'Fresh dill', 'Black pepper to taste'],
         steps: [
             'Spread a thin layer of light cream cheese on 2 brown rice cakes.',
             'Top each with slices of smoked salmon.',
@@ -1593,6 +1848,7 @@ const RECIPES = {
     },
     'Sweet Potato & Black Bean Hash': {
         prepTime: '10 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['1 medium sweet potato (200g), diced', '1/2 cup (90g) black beans, drained', '1/4 cup (40g) corn', '1/2 tsp cumin', '1 tsp olive oil', '2 tbsp fresh cilantro, chopped', 'Salt and pepper to taste'],
         steps: [
             'Dice 1 medium sweet potato into small cubes.',
             'Heat 1 tsp olive oil in a skillet over medium-high heat.',
@@ -1604,6 +1860,7 @@ const RECIPES = {
     },
     'Turkey & Spinach Breakfast Wrap': {
         prepTime: '5 min', cookTime: '3 min', servings: 1,
+        ingredientsList: ['1 whole wheat tortilla (8-inch)', '3 oz (85g) sliced turkey breast', '1 handful (30g) fresh spinach', '1 small tomato, sliced', '2 tbsp hummus'],
         steps: [
             'Warm a whole wheat tortilla in a dry pan for 30 seconds per side.',
             'Spread a thin layer of hummus down the center.',
@@ -1614,6 +1871,7 @@ const RECIPES = {
     },
     'Rice Porridge with Ginger & Chicken': {
         prepTime: '5 min', cookTime: '25 min', servings: 1,
+        ingredientsList: ['1/3 cup (65g) white rice', '2.5 cups (600ml) water', '3 oz (85g) cooked chicken breast, shredded', '1 tsp fresh ginger, grated', '2 scallions, chopped', '1/2 tsp sesame oil', 'Salt to taste'],
         steps: [
             'Simmer 1/3 cup white rice in 2.5 cups of water, stirring frequently, for 20 minutes until it breaks down into porridge.',
             'While the rice cooks, poach or shred pre-cooked chicken breast.',
@@ -1624,6 +1882,7 @@ const RECIPES = {
     },
     'Cottage Cheese & Fruit Bowl': {
         prepTime: '5 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['3/4 cup (170g) low-fat cottage cheese', '1 medium peach, sliced', '2 tbsp (15g) almonds', '1 tsp honey'],
         steps: [
             'Scoop low-fat cottage cheese into a bowl.',
             'Arrange sliced peaches on top.',
@@ -1633,6 +1892,7 @@ const RECIPES = {
     },
     'Buckwheat Pancakes with Berries': {
         prepTime: '5 min', cookTime: '10 min', servings: 1,
+        ingredientsList: ['1/2 cup (60g) buckwheat flour', '1 large egg', '1/3 cup (80ml) water or milk', '1/2 cup (75g) mixed berries', '1 tbsp maple syrup', '1 tsp coconut oil for cooking'],
         steps: [
             'Mix 1/2 cup buckwheat flour, 1 egg, and 1/3 cup water until smooth.',
             'Heat a non-stick pan with a little coconut oil over medium heat.',
@@ -1643,6 +1903,7 @@ const RECIPES = {
     },
     'High-Protein Egg & Turkey Scramble': {
         prepTime: '5 min', cookTime: '10 min', servings: 1,
+        ingredientsList: ['2 whole eggs', '3 egg whites', '4 oz (115g) turkey breast, diced', '1/2 cup (115g) cottage cheese', '1 medium tomato, sliced', 'Cooking spray', 'Salt and pepper to taste'],
         steps: [
             'Heat a non-stick pan over medium heat with cooking spray.',
             'Add diced turkey breast and cook 4-5 minutes until browned.',
@@ -1653,6 +1914,7 @@ const RECIPES = {
     },
     'Protein Oats': {
         prepTime: '5 min', cookTime: '10 min', servings: 1,
+        ingredientsList: ['1/2 cup (45g) rolled oats', '1 cup (240ml) water', '1 scoop (30g) vanilla protein powder', '1/4 cup (60g) Greek yogurt', '1 medium banana, sliced', '1 tsp honey'],
         steps: [
             'Cook oats with water according to package directions.',
             'Stir in a scoop of protein powder while still hot.',
@@ -1663,6 +1925,7 @@ const RECIPES = {
     // LUNCH
     'Grilled Chicken Salad': {
         prepTime: '10 min', cookTime: '12 min', servings: 1,
+        ingredientsList: ['6 oz (170g) chicken breast', '3 cups (90g) mixed greens', '1 cup (150g) cherry tomatoes, halved', '1/2 cucumber, sliced', '1/2 avocado, diced', '1 tbsp olive oil', '1 tbsp lemon juice', 'Salt and pepper to taste'],
         steps: [
             'Season chicken breast with salt, pepper, and a squeeze of lemon.',
             'Grill or pan-sear over medium-high heat for 5-6 minutes per side until cooked through.',
@@ -1674,6 +1937,7 @@ const RECIPES = {
     },
     'Lentil & Vegetable Soup': {
         prepTime: '10 min', cookTime: '30 min', servings: 2,
+        ingredientsList: ['1/2 cup (100g) red lentils', '2 carrots, diced', '2 celery stalks, diced', '1 can (400g) diced tomatoes', '1/2 tsp cumin', '3 cups (720ml) water or vegetable broth', '1 tbsp olive oil', '2 slices crusty bread (per serving)', 'Salt and pepper to taste'],
         steps: [
             'Heat olive oil in a pot over medium heat. Saut\u00e9 diced carrots and celery for 3-4 minutes.',
             'Add 1/2 tsp cumin and stir for 30 seconds.',
@@ -1685,6 +1949,7 @@ const RECIPES = {
     },
     'Salmon & Quinoa Bowl': {
         prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['1 salmon fillet (6 oz / 170g)', '1/2 cup (85g) quinoa', '1 cup (90g) broccoli florets', '1/2 cup (75g) edamame', '1 tbsp low-sodium soy sauce', '1 tsp grated ginger', 'Salt and pepper to taste'],
         steps: [
             'Cook 1/2 cup quinoa according to package directions.',
             'Season salmon fillet with salt and pepper. Bake at 400\u00b0F (200\u00b0C) for 12-15 minutes.',
@@ -1696,6 +1961,7 @@ const RECIPES = {
     },
     'Turkey & Avocado Lettuce Wraps': {
         prepTime: '10 min', cookTime: '8 min', servings: 1,
+        ingredientsList: ['6 oz (170g) lean ground turkey', '6 large butter lettuce leaves', '1/2 avocado, diced', '1/4 cup salsa', '1 lime, juiced', '1/2 tsp cumin', 'Salt and pepper to taste'],
         steps: [
             'Brown lean ground turkey in a skillet over medium heat, breaking it apart.',
             'Season with cumin, salt, and pepper. Cook 6-8 minutes until done.',
@@ -1707,6 +1973,7 @@ const RECIPES = {
     },
     'Mediterranean Chickpea Bowl': {
         prepTime: '10 min', cookTime: '10 min', servings: 1,
+        ingredientsList: ['1/2 cup (95g) brown rice (cooked)', '3/4 cup (135g) chickpeas, drained', '1/2 cucumber, diced', '1 medium tomato, diced', '1/4 red onion, diced', '8 Kalamata olives', '2 tbsp (30g) feta cheese', '1 tbsp olive oil', '1/2 tsp dried oregano'],
         steps: [
             'Cook brown rice according to package directions (or use pre-cooked).',
             'Drain and rinse a can of chickpeas.',
@@ -1718,6 +1985,7 @@ const RECIPES = {
     },
     'Chicken Stir-Fry with Rice': {
         prepTime: '10 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['6 oz (170g) chicken breast, sliced', '1/2 cup (95g) jasmine rice', '1 bell pepper, sliced', '1 cup (100g) snap peas', '1 carrot, julienned', '1 tsp grated ginger', '2 garlic cloves, minced', '1 tbsp low-sodium soy sauce', '1 tbsp vegetable oil'],
         steps: [
             'Cook jasmine rice according to package directions.',
             'Slice chicken breast into thin strips.',
@@ -1730,6 +1998,7 @@ const RECIPES = {
     },
     'Tuna Nicoise Salad': {
         prepTime: '10 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['1 tuna steak (5 oz / 140g)', '3 cups (90g) mixed greens', '1 cup (110g) green beans', '1 large egg', '8 black olives', '6 baby potatoes', '1 tsp Dijon mustard', '1 tbsp olive oil', '1 tbsp red wine vinegar'],
         steps: [
             'Boil baby potatoes for 10-12 minutes until tender. Halve them.',
             'Blanch green beans in boiling water for 3 minutes, then cool in ice water.',
@@ -1741,6 +2010,7 @@ const RECIPES = {
     },
     'Black Bean & Sweet Potato Tacos': {
         prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['1 medium sweet potato (200g), cubed', '3/4 cup (135g) black beans', '3 corn tortillas (6-inch)', '1 cup (70g) shredded cabbage', '1 lime, juiced', '2 tbsp Greek yogurt', '1/2 tsp cumin', '1/2 tsp chili powder', '1 tbsp olive oil'],
         steps: [
             'Peel and dice sweet potato into small cubes.',
             'Toss with olive oil, cumin, and chili powder. Roast at 400\u00b0F (200\u00b0C) for 18-20 minutes.',
@@ -1753,6 +2023,7 @@ const RECIPES = {
     },
     'Chicken & Rice Soup': {
         prepTime: '10 min', cookTime: '20 min', servings: 2,
+        ingredientsList: ['8 oz (225g) cooked chicken breast, shredded', '1/3 cup (65g) white rice', '4 cups (960ml) low-sodium chicken broth', '2 carrots, diced', '2 celery stalks, diced', '2 tbsp fresh parsley, chopped', 'Salt and pepper to taste'],
         steps: [
             'In a pot, bring 4 cups of low-sodium chicken broth to a boil.',
             'Add diced carrots and celery, simmer 5 minutes.',
@@ -1764,6 +2035,7 @@ const RECIPES = {
     },
     'Caprese Sandwich on Whole Grain': {
         prepTime: '5 min', cookTime: '3 min', servings: 1,
+        ingredientsList: ['2 slices whole grain bread', '3 oz (85g) fresh mozzarella, sliced', '1 large tomato, sliced', '6 fresh basil leaves', '1 tbsp balsamic glaze', '1 tsp olive oil'],
         steps: [
             'Toast 2 slices of whole grain bread.',
             'Layer thick slices of fresh mozzarella and ripe tomato.',
@@ -1774,6 +2046,7 @@ const RECIPES = {
     },
     'Shrimp & Zucchini Noodles': {
         prepTime: '10 min', cookTime: '8 min', servings: 1,
+        ingredientsList: ['6 oz (170g) raw shrimp, peeled', '2 medium zucchini, spiralized', '1 cup (150g) cherry tomatoes, halved', '3 garlic cloves, minced', '1 tbsp olive oil', '1 lemon, juiced', 'Salt, pepper, red pepper flakes to taste'],
         steps: [
             'Spiralize 1-2 zucchini into noodles (or use pre-spiralized).',
             'Heat olive oil in a large pan over medium-high heat.',
@@ -1785,6 +2058,7 @@ const RECIPES = {
     },
     'Tofu & Vegetable Curry': {
         prepTime: '10 min', cookTime: '20 min', servings: 2,
+        ingredientsList: ['14 oz (400g) firm tofu, cubed', '1 can (400ml) light coconut milk', '2 cups (60g) fresh spinach', '1 bell pepper, sliced', '1 tbsp curry powder', '1 cup (190g) basmati rice', '1 tbsp vegetable oil', 'Salt to taste'],
         steps: [
             'Press firm tofu for 10 minutes, then cube it.',
             'Cook basmati rice according to package directions.',
@@ -1798,6 +2072,7 @@ const RECIPES = {
     // DINNER
     'Baked Salmon with Roasted Vegetables': {
         prepTime: '10 min', cookTime: '25 min', servings: 1,
+        ingredientsList: ['1 salmon fillet (6 oz / 170g)', '1 medium sweet potato (200g)', '1 bunch (200g) asparagus', '1 lemon, juiced', '1 tsp fresh dill', '2 garlic cloves, minced', '1 tbsp olive oil', 'Salt and pepper to taste'],
         steps: [
             'Preheat oven to 400\u00b0F (200\u00b0C).',
             'Cut sweet potato into wedges and trim asparagus. Toss with olive oil and place on a baking sheet.',
@@ -1809,6 +2084,7 @@ const RECIPES = {
     },
     'Lean Beef & Broccoli Stir-Fry': {
         prepTime: '10 min', cookTime: '12 min', servings: 1,
+        ingredientsList: ['6 oz (170g) lean beef sirloin, sliced', '2 cups (180g) broccoli florets', '1 bell pepper, sliced', '1 tsp grated ginger', '2 garlic cloves, minced', '1 tbsp low-sodium soy sauce', '1/2 cup (95g) brown rice', '1 tbsp vegetable oil'],
         steps: [
             'Cook brown rice according to package directions.',
             'Slice lean beef sirloin into thin strips against the grain.',
@@ -1821,6 +2097,7 @@ const RECIPES = {
     },
     'Grilled Chicken with Quinoa & Greens': {
         prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['6 oz (170g) chicken breast', '1/2 cup (85g) quinoa', '2 cups (60g) kale, chopped', '1 cup (150g) cherry tomatoes', '1 lemon, juiced', '1 tsp mixed herbs', '1 tbsp olive oil', 'Salt and pepper'],
         steps: [
             'Cook quinoa according to package directions.',
             'Marinate chicken breast in lemon juice, olive oil, and mixed herbs for 10 minutes.',
@@ -1832,6 +2109,7 @@ const RECIPES = {
     },
     'Baked Cod with Herb Crust': {
         prepTime: '10 min', cookTime: '18 min', servings: 1,
+        ingredientsList: ['1 cod fillet (6 oz / 170g)', '1/4 cup (30g) whole wheat breadcrumbs', '2 cups (200g) cauliflower florets', '1 cup (110g) green beans', '1 tbsp fresh parsley', '1 tsp fresh thyme', '1 tbsp olive oil', '1 lemon (zest and juice)'],
         steps: [
             'Preheat oven to 400\u00b0F (200\u00b0C).',
             'Mix breadcrumbs with chopped herbs (parsley, thyme), a drizzle of olive oil, and lemon zest.',
@@ -1844,6 +2122,7 @@ const RECIPES = {
     },
     'Stuffed Bell Peppers': {
         prepTime: '15 min', cookTime: '30 min', servings: 2,
+        ingredientsList: ['4 large bell peppers', '1 lb (450g) lean ground turkey', '1 cup (190g) cooked brown rice', '1/2 cup (90g) black beans', '1/2 cup (80g) corn', '1/2 cup (55g) shredded cheese', '1 cup (240ml) tomato sauce', '1 tsp cumin', 'Salt and pepper'],
         steps: [
             'Preheat oven to 375\u00b0F (190\u00b0C).',
             'Cut tops off bell peppers and remove seeds.',
@@ -1857,6 +2136,7 @@ const RECIPES = {
     },
     'Vegetable & Chickpea Stew': {
         prepTime: '10 min', cookTime: '25 min', servings: 2,
+        ingredientsList: ['1.5 cups (270g) chickpeas, drained', '1 zucchini, diced', '2 carrots, diced', '2 cups (60g) fresh spinach', '1 can (400g) diced tomatoes', '1 cup (240ml) water', '1 tsp dried oregano', '1 tbsp olive oil', 'Salt and pepper to taste'],
         steps: [
             'Heat olive oil in a large pot over medium heat.',
             'Add diced carrots and sliced zucchini. Cook 4-5 minutes.',
@@ -1869,6 +2149,7 @@ const RECIPES = {
     },
     'Chicken Fajita Bowl': {
         prepTime: '10 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['6 oz (170g) chicken breast, sliced', '1/2 cup (95g) jasmine rice', '1 bell pepper, sliced', '1/2 onion, sliced', '1/2 avocado', '1 lime, juiced', '2 tbsp fresh cilantro', '1 tsp cumin', '1 tbsp olive oil', 'Salt and pepper'],
         steps: [
             'Cook jasmine rice with a squeeze of lime and chopped cilantro.',
             'Slice chicken breast into strips and season with cumin, salt, and pepper.',
@@ -1880,6 +2161,7 @@ const RECIPES = {
     },
     'Pork Tenderloin with Apple Slaw': {
         prepTime: '10 min', cookTime: '25 min', servings: 2,
+        ingredientsList: ['1 lb (450g) pork tenderloin', '1 large apple, sliced thin', '2 cups (140g) shredded cabbage', '1 lb (450g) baby potatoes', '1 tbsp apple cider vinegar', '1 tsp dried herbs', '2 tbsp olive oil', 'Salt and pepper to taste'],
         steps: [
             'Preheat oven to 400\u00b0F (200\u00b0C).',
             'Rub pork tenderloin with olive oil, herbs, salt, and pepper.',
@@ -1891,6 +2173,7 @@ const RECIPES = {
     },
     'Eggplant Parmesan (Baked)': {
         prepTime: '15 min', cookTime: '30 min', servings: 2,
+        ingredientsList: ['1 large eggplant, sliced into rounds', '1/2 cup (60g) whole wheat breadcrumbs', '1 cup (240ml) marinara sauce', '4 oz (115g) mozzarella cheese, shredded', '1 large egg, beaten', '2 tbsp grated Parmesan', '6 fresh basil leaves', 'Salt and pepper'],
         steps: [
             'Preheat oven to 400\u00b0F (200\u00b0C).',
             'Slice eggplant into 1/2-inch rounds. Salt and let sit 10 minutes, then pat dry.',
@@ -1903,6 +2186,7 @@ const RECIPES = {
     },
     'Steamed Fish with Ginger & Bok Choy': {
         prepTime: '10 min', cookTime: '12 min', servings: 1,
+        ingredientsList: ['1 white fish fillet (6 oz / 170g) — tilapia or sole', '2 baby bok choy, halved', '1/2 cup (95g) white rice', '1 tbsp julienned fresh ginger', '1 tbsp low-sodium soy sauce', '1 tsp sesame oil', '2 scallions, chopped'],
         steps: [
             'Cook white rice according to package directions.',
             'Place fish fillet on a heatproof plate. Top with julienned ginger.',
@@ -1914,6 +2198,7 @@ const RECIPES = {
     },
     'Lemon Herb Roast Chicken': {
         prepTime: '10 min', cookTime: '30 min', servings: 1,
+        ingredientsList: ['1 chicken thigh (skinless, ~6 oz / 170g)', '1 lemon, juiced', '1 sprig fresh rosemary', '2 carrots, cut into chunks', '1/2 cup (90g) couscous', '1 tbsp olive oil', 'Salt and pepper to taste'],
         steps: [
             'Preheat oven to 425\u00b0F (220\u00b0C).',
             'Place skinless chicken thigh on a baking sheet with chopped carrots.',
@@ -1926,6 +2211,7 @@ const RECIPES = {
     },
     'Veggie Pasta Primavera': {
         prepTime: '10 min', cookTime: '15 min', servings: 2,
+        ingredientsList: ['8 oz (225g) whole wheat penne', '1 zucchini, sliced', '1 cup (80g) mushrooms, sliced', '1 cup (150g) cherry tomatoes, halved', '3 garlic cloves, minced', '2 tbsp olive oil', '1/4 cup fresh basil leaves', 'Salt and pepper to taste'],
         steps: [
             'Cook whole wheat penne according to package directions. Reserve 1/2 cup pasta water.',
             'Heat olive oil in a large pan. Saut\u00e9 sliced zucchini and mushrooms 3-4 minutes.',
@@ -1937,6 +2223,7 @@ const RECIPES = {
     },
     'Grilled Steak with Sweet Potato': {
         prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['7 oz (200g) lean sirloin steak', '1 medium sweet potato', '1 cup (110g) green beans', '2 garlic cloves, minced', '1 tbsp olive oil', 'Salt and pepper to taste'],
         steps: [
             'Preheat grill or grill pan to high heat.',
             'Season lean sirloin steak with salt, pepper, and minced garlic.',
@@ -1948,6 +2235,7 @@ const RECIPES = {
     },
     'Turkey Meatballs with Quinoa': {
         prepTime: '15 min', cookTime: '25 min', servings: 2,
+        ingredientsList: ['1 lb (450g) lean ground turkey', '1/2 cup (85g) quinoa', '1 cup (240ml) marinara sauce', '1 large egg', '1/4 cup (30g) breadcrumbs', '2 cups (60g) fresh spinach', '2 garlic cloves, minced', 'Salt and pepper'],
         steps: [
             'Preheat oven to 400°F (200°C).',
             'Mix lean ground turkey with 1 egg, breadcrumbs, minced garlic, salt, and pepper.',
@@ -1960,6 +2248,7 @@ const RECIPES = {
     },
     'Double Chicken & Rice Power Bowl': {
         prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['2 chicken breasts (12 oz / 340g total)', '3/4 cup (140g) brown rice', '2 cups (180g) broccoli florets', '1 lemon, juiced', '1 tbsp olive oil', 'Salt and pepper to taste'],
         steps: [
             'Cook brown rice according to package directions.',
             'Season 2 chicken breasts with salt, pepper, and a squeeze of lemon.',
@@ -1971,6 +2260,7 @@ const RECIPES = {
     },
     'Tuna & White Bean Salad': {
         prepTime: '10 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 can (5 oz / 140g) tuna in water, drained', '1 cup (180g) cannellini beans, drained', '1 cup (150g) cherry tomatoes, halved', '1/4 red onion, diced', '2 cups (60g) mixed greens', '1 lemon, juiced', '1 tbsp olive oil', 'Salt and pepper'],
         steps: [
             'Drain canned tuna and flake into a bowl.',
             'Add drained white beans, halved cherry tomatoes, and diced red onion.',
@@ -1982,6 +2272,7 @@ const RECIPES = {
     // SNACKS
     'Protein Shake': {
         prepTime: '3 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 scoop (30g) protein powder', '1 cup (240ml) almond milk', '1 medium banana'],
         steps: [
             'Add 1 scoop protein powder, 1 cup almond milk, and 1 banana to a blender.',
             'Blend on high for 30-60 seconds until smooth.',
@@ -1990,6 +2281,7 @@ const RECIPES = {
     },
     'Chicken Jerky & Almonds': {
         prepTime: '1 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 oz (28g) low-sodium chicken jerky', '1 oz (28g) almonds'],
         steps: [
             'Grab a serving of low-sodium chicken jerky (about 1 oz).',
             'Pair with a small handful of almonds (about 1 oz).',
@@ -1998,6 +2290,7 @@ const RECIPES = {
     },
     'Apple Slices with Almond Butter': {
         prepTime: '3 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 medium apple', '1 tbsp (16g) natural almond butter'],
         steps: [
             'Core and slice an apple into wedges.',
             'Serve with 1 tablespoon of natural almond butter for dipping.'
@@ -2005,6 +2298,7 @@ const RECIPES = {
     },
     'Carrot & Celery Sticks with Hummus': {
         prepTime: '5 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 large carrot, cut into sticks', '2 celery stalks, cut into sticks', '1/4 cup (60g) hummus'],
         steps: [
             'Wash and cut carrots and celery into sticks.',
             'Scoop 1/4 cup hummus into a small bowl.',
@@ -2013,6 +2307,7 @@ const RECIPES = {
     },
     'Greek Yogurt with Honey': {
         prepTime: '2 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['3/4 cup (170g) low-fat plain Greek yogurt', '1 tsp honey'],
         steps: [
             'Scoop low-fat Greek yogurt into a bowl.',
             'Drizzle with a teaspoon of honey.',
@@ -2021,6 +2316,7 @@ const RECIPES = {
     },
     'Mixed Nuts (Unsalted)': {
         prepTime: '1 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 oz (28g) unsalted mixed nuts (almonds, walnuts, cashews)'],
         steps: [
             'Measure out a small handful (about 1 oz / 28g) of unsalted mixed nuts.',
             'Enjoy as-is for a quick, satisfying snack.'
@@ -2028,6 +2324,7 @@ const RECIPES = {
     },
     'Rice Cakes with Avocado': {
         prepTime: '3 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['2 brown rice cakes', '1/2 avocado, mashed', 'Pinch of sea salt'],
         steps: [
             'Mash half an avocado with a fork.',
             'Spread onto 2 brown rice cakes.',
@@ -2036,6 +2333,7 @@ const RECIPES = {
     },
     'Hard-Boiled Eggs (2)': {
         prepTime: '2 min', cookTime: '12 min', servings: 1,
+        ingredientsList: ['2 large eggs', 'Pinch of paprika', 'Salt to taste'],
         steps: [
             'Place 2 eggs in a saucepan and cover with cold water by 1 inch.',
             'Bring to a boil, then remove from heat and cover. Let sit 10 minutes.',
@@ -2045,6 +2343,7 @@ const RECIPES = {
     },
     'Banana with Peanut Butter': {
         prepTime: '2 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 medium banana', '1 tbsp (16g) natural peanut butter'],
         steps: [
             'Peel a medium banana.',
             'Spread or dip with 1 tablespoon of natural peanut butter.',
@@ -2053,6 +2352,7 @@ const RECIPES = {
     },
     'Cherry Tomatoes with Mozzarella': {
         prepTime: '5 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1 cup (150g) cherry tomatoes', '1/4 cup (60g) fresh mozzarella pearls', '1 tsp balsamic glaze'],
         steps: [
             'Halve a handful of cherry tomatoes.',
             'Combine with fresh mozzarella pearls in a small bowl.',
@@ -2061,6 +2361,7 @@ const RECIPES = {
     },
     'Edamame (Steamed)': {
         prepTime: '1 min', cookTime: '5 min', servings: 1,
+        ingredientsList: ['1 cup (155g) edamame pods (in shell)', 'Pinch of sea salt'],
         steps: [
             'Bring a pot of water to a boil.',
             'Add 1 cup of edamame pods and cook 4-5 minutes.',
@@ -2070,6 +2371,7 @@ const RECIPES = {
     },
     'Trail Mix (Low Sugar)': {
         prepTime: '3 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['2 tbsp pumpkin seeds', '2 tbsp sunflower seeds', '2 tbsp dried cranberries', '1 tbsp dark chocolate chips'],
         steps: [
             'Mix together pumpkin seeds, sunflower seeds, dried cranberries, and a small handful of dark chocolate chips.',
             'Store extra portions in small bags for grab-and-go snacking.'
@@ -2077,6 +2379,7 @@ const RECIPES = {
     },
     'Cottage Cheese & Pineapple': {
         prepTime: '3 min', cookTime: '0 min', servings: 1,
+        ingredientsList: ['1/2 cup (115g) low-fat cottage cheese', '1/2 cup (80g) fresh pineapple chunks'],
         steps: [
             'Scoop low-fat cottage cheese into a bowl.',
             'Top with fresh pineapple chunks.',
@@ -2085,6 +2388,7 @@ const RECIPES = {
     },
     'Oat Energy Balls': {
         prepTime: '10 min', cookTime: '0 min', servings: 6,
+        ingredientsList: ['1 cup (90g) rolled oats', '2 tbsp (40g) honey', '1 tbsp ground flaxseed', '2 tbsp dark chocolate chips'],
         steps: [
             'In a bowl, mix 1 cup rolled oats, 2 tbsp honey, 1 tbsp ground flaxseed, and 2 tbsp dark chocolate chips.',
             'Stir until everything is well combined (add a splash of water if too dry).',
@@ -2096,6 +2400,7 @@ const RECIPES = {
     // --- SOUTH ASIAN RECIPES ---
     'Masala Omelette with Roti': {
         prepTime: '5 min', cookTime: '8 min', servings: 1,
+        ingredientsList: ['2 large eggs', '1/4 onion, finely diced', '1 green chilli, minced', '1 small tomato, diced', '2 tbsp fresh cilantro, chopped', '1 whole wheat roti', '1/4 tsp turmeric', '1 tsp oil', 'Salt to taste'],
         steps: [
             'Whisk 2 eggs with finely diced onion, green chilli, tomato, cilantro, salt, and a pinch of turmeric.',
             'Heat oil in a non-stick pan over medium heat.',
@@ -2106,6 +2411,7 @@ const RECIPES = {
     },
     'Poha (Flattened Rice)': {
         prepTime: '5 min', cookTime: '10 min', servings: 1,
+        ingredientsList: ['1 cup (60g) poha (flattened rice)', '1/2 tsp mustard seeds', '1/4 tsp turmeric', '2 tbsp peanuts', '1/2 onion, diced', '6-8 curry leaves', '1/2 lemon, juiced', '1 tbsp oil', 'Salt to taste'],
         steps: [
             'Rinse poha in water, drain, and set aside for 5 minutes to soften.',
             'Heat oil in a pan, add mustard seeds and curry leaves. Let them splutter.',
@@ -2117,6 +2423,7 @@ const RECIPES = {
     },
     'Idli with Sambar': {
         prepTime: '10 min (plus batter prep)', cookTime: '15 min', servings: 2,
+        ingredientsList: ['2 cups idli batter (rice & urad dal)', '1/2 cup (100g) toor dal (split pigeon peas)', '1.5 cups mixed vegetables (carrot, drumstick, etc.)', '2 tbsp sambar powder', '1/2 tsp turmeric', '1/2 tsp mustard seeds', '6-8 curry leaves', '2 tbsp grated coconut', '1 tbsp oil', 'Salt to taste'],
         steps: [
             'Pour idli batter into greased idli molds.',
             'Steam for 10-12 minutes until a toothpick comes out clean.',
@@ -2128,6 +2435,7 @@ const RECIPES = {
     },
     'Chicken Tikka with Brown Rice': {
         prepTime: '15 min + marinate', cookTime: '15 min', servings: 1,
+        ingredientsList: ['6 oz (170g) chicken breast, cubed', '1/4 cup (60g) plain yogurt', '1 tbsp tikka spice mix', '1 lemon, juiced', '1/2 cup (95g) brown rice', '1/2 cucumber, diced', '1 small tomato', '2 tbsp fresh mint', 'Salt to taste'],
         steps: [
             'Cut chicken into chunks. Marinate in yogurt, tikka spices, lemon juice, salt for 30 min (or overnight).',
             'Cook brown rice according to package directions.',
@@ -2139,6 +2447,7 @@ const RECIPES = {
     },
     'Dal Tadka with Jeera Rice': {
         prepTime: '10 min', cookTime: '25 min', servings: 2,
+        ingredientsList: ['1 cup (200g) toor dal (split pigeon peas)', '1 cup (190g) basmati rice', '1 tsp cumin seeds (jeera)', '4 garlic cloves, minced', '1 tbsp ghee', '1/2 tsp turmeric', '1 small tomato, diced', '1 lemon, juiced', 'Salt to taste'],
         steps: [
             'Wash toor dal and pressure cook or boil with turmeric until soft (15-20 min).',
             'Cook basmati rice with whole cumin seeds (jeera rice).',
@@ -2150,6 +2459,7 @@ const RECIPES = {
     },
     'Chana Masala with Roti': {
         prepTime: '10 min', cookTime: '20 min', servings: 2,
+        ingredientsList: ['2 cups (360g) chickpeas, drained', '1 large onion, diced', '2 medium tomatoes, diced', '1 tbsp garam masala', '1 tsp cumin', '1 tsp ginger-garlic paste', '2 whole wheat rotis', '2 tbsp fresh cilantro', '1 tbsp oil', 'Salt to taste'],
         steps: [
             'Heat oil in a pan. Saut\u00e9 diced onion until golden, about 5 minutes.',
             'Add minced ginger-garlic, cook 1 minute.',
@@ -2161,6 +2471,7 @@ const RECIPES = {
     },
     'Tandoori Salmon with Mint Chutney': {
         prepTime: '10 min + marinate', cookTime: '15 min', servings: 1,
+        ingredientsList: ['1 salmon fillet (6 oz / 170g)', '1/4 cup (60g) plain yogurt', '1 tbsp tandoori spice mix', '1/2 cup (95g) basmati rice', '1/2 cup fresh mint leaves', '2 tbsp fresh cilantro', '1 lemon, juiced', 'Salt to taste'],
         steps: [
             'Marinate salmon in yogurt, tandoori spice mix, lemon juice, and salt for 20+ minutes.',
             'Cook basmati rice according to package directions.',
@@ -2172,6 +2483,7 @@ const RECIPES = {
     },
     'Palak Paneer with Naan': {
         prepTime: '10 min', cookTime: '20 min', servings: 2,
+        ingredientsList: ['4 cups (120g) fresh spinach', '6 oz (170g) paneer, cubed', '1 onion, diced', '3 garlic cloves, minced', '1 tsp grated ginger', '2 tbsp cream', '1 tsp garam masala', '2 whole wheat naan', '1 tbsp oil', 'Salt to taste'],
         steps: [
             'Blanch spinach in boiling water for 2 minutes, then blend into a puree.',
             'Heat oil, saut\u00e9 diced onion, garlic, and ginger until soft.',
@@ -2185,6 +2497,7 @@ const RECIPES = {
     // --- EAST ASIAN RECIPES ---
     'Congee with Century Egg & Pork': {
         prepTime: '5 min', cookTime: '40 min', servings: 2,
+        ingredientsList: ['1/2 cup (95g) jasmine rice', '5 cups (1.2L) water', '1 century egg', '4 oz (115g) pork loin, cooked and shredded', '1 tbsp julienned ginger', '2 scallions, chopped', '1 tsp sesame oil', '1/4 tsp white pepper', 'Salt to taste'],
         steps: [
             'Rinse 1/2 cup rice. Add to a pot with 5 cups water.',
             'Bring to a boil, reduce heat, and simmer 30-40 minutes, stirring occasionally, until thick and creamy.',
@@ -2196,6 +2509,7 @@ const RECIPES = {
     },
     'Kung Pao Chicken': {
         prepTime: '10 min', cookTime: '12 min', servings: 1,
+        ingredientsList: ['6 oz (170g) chicken breast, cubed', '2 tbsp peanuts', '1 bell pepper, diced', '1 small zucchini, diced', '4-5 dried chillies', '1 tbsp low-sodium soy sauce', '1 tbsp rice vinegar', '1/2 tsp sugar', '1/2 cup (95g) steamed rice', '1 tbsp oil'],
         steps: [
             'Cut chicken breast into bite-sized cubes.',
             'Mix soy sauce, rice vinegar, and a pinch of sugar for the sauce.',
@@ -2208,6 +2522,7 @@ const RECIPES = {
     },
     'Mapo Tofu with Rice': {
         prepTime: '10 min', cookTime: '15 min', servings: 2,
+        ingredientsList: ['14 oz (400g) silken tofu, cubed', '4 oz (115g) lean ground pork', '1 tbsp Sichuan peppercorns', '2 tbsp chili bean paste (doubanjiang)', '3 garlic cloves, minced', '3 scallions, chopped', '1 tbsp low-sodium soy sauce', '1 cup (190g) steamed rice', '1 tbsp oil'],
         steps: [
             'Cut tofu into 1-inch cubes. Gently blanch in salted water for 2 minutes.',
             'Heat oil in a wok, brown lean ground pork for 3-4 minutes.',
@@ -2220,6 +2535,7 @@ const RECIPES = {
     },
     'Sweet & Sour Fish': {
         prepTime: '10 min', cookTime: '20 min', servings: 1,
+        ingredientsList: ['1 white fish fillet (6 oz / 170g)', '1/2 cup (80g) pineapple chunks', '1 bell pepper, diced', '2 tbsp rice vinegar', '2 tbsp tomato paste', '1 tsp sugar', '1 tbsp low-sodium soy sauce', '1 tbsp cornstarch', '1/2 cup (95g) jasmine rice'],
         steps: [
             'Cut fish into pieces, season and lightly coat with cornstarch.',
             'Bake at 400\u00b0F for 12-15 minutes until crispy.',
@@ -2232,6 +2548,7 @@ const RECIPES = {
     // --- JAPANESE RECIPES ---
     'Salmon Poke Bowl': {
         prepTime: '15 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['5 oz (140g) sushi-grade salmon, cubed', '1/2 cup (95g) sushi rice', '1 tbsp rice vinegar', '1/3 cup (50g) edamame', '1/2 cucumber, sliced', '1/2 avocado, sliced', '2 tbsp pickled ginger', '1 tbsp low-sodium soy sauce', '1 tsp sesame oil', '1 tsp sesame seeds'],
         steps: [
             'Cook sushi rice according to package, season with rice vinegar.',
             'Cut fresh salmon into 1/2-inch cubes.',
@@ -2243,6 +2560,7 @@ const RECIPES = {
     },
     'Chicken Teriyaki Don': {
         prepTime: '10 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['1 chicken thigh (skinless, 6 oz / 170g)', '2 tbsp low-sodium soy sauce', '1 tbsp mirin', '1 tsp honey', '1/2 cup (95g) steamed rice', '1 cup (90g) broccoli florets', '1 tsp sesame seeds'],
         steps: [
             'Cook steamed rice according to package directions.',
             'Mix soy sauce, mirin, and honey for teriyaki sauce.',
@@ -2254,6 +2572,7 @@ const RECIPES = {
     },
     'Miso Glazed Cod with Soba Noodles': {
         prepTime: '10 min + marinate', cookTime: '15 min', servings: 1,
+        ingredientsList: ['1 cod fillet (6 oz / 170g)', '2 tbsp white miso paste', '1 tbsp mirin', '1 tsp sugar', '3 oz (85g) soba noodles', '2 baby bok choy, halved', '1 tsp grated ginger'],
         steps: [
             'Mix white miso paste with a little mirin and sugar. Coat cod and marinate 20+ minutes.',
             'Cook soba noodles according to package, rinse under cold water.',
@@ -2266,6 +2585,7 @@ const RECIPES = {
     // --- KOREAN RECIPES ---
     'Bibimbap': {
         prepTime: '15 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['1/2 cup (95g) steamed rice', '1 cup (30g) fresh spinach', '1/2 cup (50g) bean sprouts', '1 carrot, julienned', '1/2 zucchini, sliced', '1 large egg', '1-2 tbsp gochujang (Korean chili paste)', '1 tsp sesame oil', '2 garlic cloves, minced', '1 tsp sesame seeds'],
         steps: [
             'Cook steamed rice.',
             'Separately season and saut\u00e9 each vegetable: spinach with garlic, bean sprouts with sesame, julienned carrots, sliced zucchini.',
@@ -2277,6 +2597,7 @@ const RECIPES = {
     },
     'Korean Beef Bulgogi with Rice': {
         prepTime: '15 min + marinate', cookTime: '10 min', servings: 2,
+        ingredientsList: ['12 oz (340g) beef sirloin, thinly sliced', '1/2 Asian pear, grated', '3 tbsp low-sodium soy sauce', '1 tbsp sesame oil', '4 garlic cloves, minced', '1 tsp sugar', '1 cup (190g) steamed rice', '1/2 cup (75g) kimchi', '2 scallions, chopped', '1 tsp sesame seeds'],
         steps: [
             'Thinly slice beef sirloin (freeze 30 min for easier slicing).',
             'Blend pear, soy sauce, sesame oil, garlic, and sugar for marinade. Marinate beef 30+ minutes.',
@@ -2288,6 +2609,7 @@ const RECIPES = {
     },
     'Kimchi Jjigae (Kimchi Stew)': {
         prepTime: '10 min', cookTime: '20 min', servings: 2,
+        ingredientsList: ['1.5 cups (225g) aged kimchi, sliced', '7 oz (200g) firm tofu, cubed', '4 oz (115g) lean pork belly', '1 small zucchini, sliced', '2 scallions, chopped', '1 tbsp gochugaru (Korean chili flakes)', '2 cups (480ml) water', '1 cup (190g) steamed rice'],
         steps: [
             'Slice aged kimchi and lean pork belly into bite-sized pieces.',
             'Saut\u00e9 kimchi and pork in a pot for 3-4 minutes.',
@@ -2300,6 +2622,7 @@ const RECIPES = {
     // --- LATIN AMERICAN RECIPES ---
     'Huevos Rancheros': {
         prepTime: '5 min', cookTime: '10 min', servings: 1,
+        ingredientsList: ['2 large eggs', '2 corn tortillas (6-inch)', '1/2 cup (90g) black beans', '1/3 cup (80ml) ranchero salsa', '1/2 avocado, diced', '2 tbsp queso fresco, crumbled', '2 tbsp fresh cilantro', '1/2 tsp cumin'],
         steps: [
             'Warm corn tortillas in a dry pan.',
             'Heat black beans in a small pot with a pinch of cumin.',
@@ -2311,6 +2634,7 @@ const RECIPES = {
     },
     'Arepas with Black Beans & Cheese': {
         prepTime: '10 min', cookTime: '15 min', servings: 2,
+        ingredientsList: ['1 cup (120g) masa harina (precooked corn flour)', '1.25 cups (300ml) warm water', '1 cup (180g) black beans, seasoned', '1/2 cup (55g) shredded cheese', '1/2 avocado, sliced', '1/2 tsp cumin', '1/2 tsp salt'],
         steps: [
             'Mix masa harina with warm water and salt to form a dough.',
             'Shape into thick discs about 3 inches wide.',
@@ -2321,6 +2645,7 @@ const RECIPES = {
     },
     'Chicken Burrito Bowl': {
         prepTime: '10 min', cookTime: '15 min', servings: 1,
+        ingredientsList: ['6 oz (170g) chicken breast', '1/2 cup (95g) rice', '1/2 cup (90g) black beans', '1/4 cup (40g) corn', '1 medium tomato, diced', '1/4 onion, diced', '1/2 avocado', '1 lime, juiced', '2 tbsp fresh cilantro'],
         steps: [
             'Cook rice with a squeeze of lime and chopped cilantro.',
             'Season chicken breast with cumin, chili powder, salt. Grill or pan-sear 5-6 min per side.',
@@ -2332,6 +2657,7 @@ const RECIPES = {
     },
     'Ceviche with Tostadas': {
         prepTime: '20 min', cookTime: '0 min (cure time: 30 min)', servings: 2,
+        ingredientsList: ['8 oz (225g) sushi-grade white fish, diced', '1/2 cup (120ml) fresh lime juice', '1 medium tomato, diced', '1/2 red onion, diced', '1 jalapeno, minced', '1/4 cup fresh cilantro', '1/2 avocado', '4 corn tostadas', 'Salt to taste'],
         steps: [
             'Dice white fish into small cubes.',
             'Cover with fresh lime juice in a bowl. Refrigerate 30 minutes until fish turns opaque.',
@@ -2343,6 +2669,7 @@ const RECIPES = {
     },
     'Arroz con Pollo': {
         prepTime: '10 min', cookTime: '30 min', servings: 2,
+        ingredientsList: ['2 chicken thighs (skinless)', '1 cup (190g) rice', '1 bell pepper, diced', '1/2 cup (75g) frozen peas', '1/4 cup green olives', '4 garlic cloves, minced', '1 cup (240ml) tomato sauce', '1 tsp cumin', '2 cups (480ml) water', '1 tbsp olive oil'],
         steps: [
             'Season chicken thighs with cumin, salt, and pepper. Brown in a large pot 3-4 min per side. Remove.',
             'Saut\u00e9 diced onion, bell peppers, and garlic in the same pot.',
@@ -2355,6 +2682,7 @@ const RECIPES = {
     // --- MIDDLE EASTERN RECIPES ---
     'Chicken Shawarma Bowl': {
         prepTime: '10 min + marinate', cookTime: '15 min', servings: 1,
+        ingredientsList: ['6 oz (170g) chicken breast, sliced', '1 tbsp shawarma spice mix', '1/4 cup (60g) hummus', '1/2 cup cooked bulgur wheat', '1/4 cup fresh parsley, chopped', '1 medium tomato, diced', '1 small pita bread', '2 tbsp pickled turnips', '1 tsp olive oil'],
         steps: [
             'Marinate sliced chicken in shawarma spices, yogurt, lemon, and olive oil for 30+ minutes.',
             'Make tabbouleh: mix cooked bulgur with diced parsley, tomato, lemon juice, and olive oil.',
@@ -2366,6 +2694,7 @@ const RECIPES = {
     },
     'Falafel Wrap': {
         prepTime: '15 min', cookTime: '20 min', servings: 2,
+        ingredientsList: ['1 cup (180g) dried chickpeas (soaked overnight)', '1/4 cup fresh parsley', '3 garlic cloves', '1 tsp cumin', '1 tsp coriander', '2 whole wheat wraps', '2 tbsp tahini', '1 cup (30g) mixed greens', '1 medium tomato, diced', '1/4 cup pickles', 'Salt to taste'],
         steps: [
             'Blend soaked chickpeas (not canned), parsley, cumin, garlic, and salt in a food processor.',
             'Form into small patties.',
@@ -2377,6 +2706,7 @@ const RECIPES = {
     },
     'Lamb Kofta with Tabbouleh': {
         prepTime: '15 min', cookTime: '12 min', servings: 2,
+        ingredientsList: ['12 oz (340g) lean ground lamb', '1/2 onion, finely minced', '1 tsp cumin', '1 tsp ground coriander', '1 cup cooked bulgur wheat', '1 cup fresh parsley, chopped', '1 medium tomato, diced', '1 lemon, juiced', '2 tbsp Greek yogurt', '2 tbsp fresh mint'],
         steps: [
             'Mix lean ground lamb with minced onion, cumin, coriander, salt, and pepper.',
             'Shape into small oval koftas around skewers.',
@@ -2387,6 +2717,7 @@ const RECIPES = {
     },
     'Labneh with Za\'atar & Pita': {
         prepTime: '3 min', cookTime: '3 min', servings: 1,
+        ingredientsList: ['1/3 cup (75g) labneh (strained yogurt)', '1 tsp za\'atar spice', '1 tsp olive oil', '1/2 small pita bread, cut into wedges'],
         steps: [
             'Spread labneh on a small plate.',
             'Drizzle with olive oil and sprinkle za\'atar generously.',
@@ -2397,6 +2728,7 @@ const RECIPES = {
     // --- AFRICAN RECIPES ---
     'Jollof Rice with Grilled Chicken': {
         prepTime: '15 min', cookTime: '35 min', servings: 2,
+        ingredientsList: ['1 cup (190g) long-grain rice', '2 chicken thighs (skinless)', '3 tbsp tomato paste', '2 medium tomatoes, blended', '1 onion, blended', '1 scotch bonnet pepper', '1 ripe plantain, sliced', '1 tsp dried thyme', '1 tbsp oil', 'Salt to taste'],
         steps: [
             'Blend tomatoes, scotch bonnet pepper, and onion into a smooth paste.',
             'Season chicken with salt and spices. Grill or bake until cooked through.',
@@ -2409,6 +2741,7 @@ const RECIPES = {
     },
     'Ethiopian Lentil Stew (Misir Wot)': {
         prepTime: '10 min', cookTime: '30 min', servings: 2,
+        ingredientsList: ['1 cup (200g) red lentils, rinsed', '1 large onion, finely diced', '4 garlic cloves, minced', '2 tbsp berbere spice', '2 tbsp tomato paste', '2.5 cups (600ml) water', '2 tbsp olive oil', '2 cups (380g) cooked rice or 1 piece injera (per serving)', 'Salt to taste'],
         steps: [
             'Dice onion finely. Cook in a dry pot over medium heat until softened (no oil for traditional method).',
             'Add a splash of oil, minced garlic, and berbere spice. Stir 1-2 minutes.',
@@ -2420,6 +2753,7 @@ const RECIPES = {
     },
     'Moroccan Chicken Tagine': {
         prepTime: '10 min', cookTime: '40 min', servings: 2,
+        ingredientsList: ['2 chicken thighs (skinless)', '1 preserved lemon, sliced', '1/3 cup green olives', '1 onion, sliced', 'Pinch of saffron', '1 tsp ground cinnamon', '1 cup (180g) couscous', '1 tbsp olive oil', '1/2 cup (120ml) water', 'Salt and pepper'],
         steps: [
             'Season chicken thighs with salt, pepper, saffron, and cinnamon.',
             'Brown chicken in a tagine or heavy pot with olive oil, 3 min per side. Remove.',
@@ -2433,6 +2767,7 @@ const RECIPES = {
     // --- CARIBBEAN RECIPES ---
     'Jerk Chicken with Rice & Peas': {
         prepTime: '15 min + marinate', cookTime: '25 min', servings: 2,
+        ingredientsList: ['2 chicken breasts (12 oz / 340g total)', '2 tbsp jerk seasoning', '1 cup (190g) rice', '1/2 cup (90g) kidney beans', '1/2 cup (120ml) light coconut milk', '2 cups (140g) shredded cabbage', '1 lime, juiced', '1 tsp dried thyme'],
         steps: [
             'Marinate chicken in jerk seasoning for at least 1 hour (overnight is best).',
             'Cook rice with coconut milk, kidney beans, thyme, and a pinch of salt.',
@@ -2443,6 +2778,7 @@ const RECIPES = {
     },
     'Caribbean Fish Curry': {
         prepTime: '10 min', cookTime: '20 min', servings: 2,
+        ingredientsList: ['12 oz (340g) white fish fillet, cubed', '1 can (400ml) light coconut milk', '1 medium sweet potato, cubed', '1 bell pepper, sliced', '1/2 scotch bonnet pepper', '1 tbsp curry powder', '1 cup (190g) rice', '1 lime, juiced', '1 tbsp oil', 'Salt to taste'],
         steps: [
             'Cut white fish into large chunks. Season with salt and curry powder.',
             'Dice sweet potato into small cubes.',
@@ -2454,6 +2790,7 @@ const RECIPES = {
     },
     'Oxtail Stew with Butter Beans': {
         prepTime: '15 min', cookTime: '3 hours', servings: 4,
+        ingredientsList: ['2 lbs (900g) oxtail pieces', '1 cup (180g) butter beans', '3 carrots, chopped', '4 garlic cloves, minced', '1 tbsp dried thyme', '1 tsp ground allspice', '4 cups (960ml) water', '2 cups (380g) cooked rice (per serving 1/2 cup)', '1 tbsp oil'],
         steps: [
             'Season oxtail pieces with allspice, garlic, thyme, salt, and pepper.',
             'Brown oxtail in a heavy pot on all sides.',
@@ -2465,6 +2802,7 @@ const RECIPES = {
     },
     'Plantain Chips with Guacamole': {
         prepTime: '10 min', cookTime: '15 min', servings: 2,
+        ingredientsList: ['2 green plantains, thinly sliced', '1 ripe avocado', '1 lime, juiced', '1/4 red onion, diced', '2 tbsp fresh cilantro', '1 tsp olive oil', 'Sea salt to taste'],
         steps: [
             'Peel green plantain and slice very thinly.',
             'Toss slices with a little oil and salt. Spread on a baking sheet.',
@@ -2474,3 +2812,6 @@ const RECIPES = {
         ]
     }
 };
+
+// Merge curated internet recipes into the main RECIPES object
+Object.assign(RECIPES, INTERNET_RECIPES);
