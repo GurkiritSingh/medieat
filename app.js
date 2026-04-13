@@ -722,6 +722,101 @@ function renderNutrition() {
 }
 
 // ============================================================
+// GSHOP INTEGRATION
+// ============================================================
+// GShop is a separate static React app that reads shopping lists from
+// a base64-encoded ?share= URL parameter. No API calls, no shared secrets.
+// Update this constant to point at your deployed GShop instance.
+const GSHOP_URL = 'https://gshopdo.netlify.app';
+
+// Map MedMealPlanner pantry-style categories to GShop's GroceryCategory enum.
+const GSHOP_CATEGORY_MAP = {
+    proteins: 'meat_fish',
+    vegetables: 'fruit_veg',
+    fruits: 'fruit_veg',
+    grains: 'bakery',
+    dairy: 'dairy',
+    nuts: 'snacks',
+    pantry: 'tinned'
+};
+
+// Map MedMealPlanner allergies/diet to GShop dietary tags.
+function buildGshopDietaryTags() {
+    const tags = new Set();
+    if (dietPreference === 'vegan') tags.add('vegan');
+    if (dietPreference === 'vegetarian') { tags.add('vegetarian'); tags.add('vegan'); }
+    const allergyToTag = { gluten: 'gluten_free', dairy: 'dairy_free', nuts: 'nut_free', peanuts: 'nut_free' };
+    [...selectedAllergies, ...customAllergies].forEach(a => {
+        if (allergyToTag[a]) tags.add(allergyToTag[a]);
+    });
+    return [...tags];
+}
+
+function buildGshopShareUrl() {
+    if (!currentPlan) return null;
+
+    // Aggregate ingredients across the whole plan, deduped by name+category
+    const aggregate = new Map(); // key: "category|name" -> { n, q, c }
+    currentPlan.forEach(day => {
+        [day.breakfast, day.lunch, day.dinner, ...day.snacks].forEach(meal => {
+            if (!meal.category_ingredients) return;
+            Object.entries(meal.category_ingredients).forEach(([cat, items]) => {
+                const gshopCat = GSHOP_CATEGORY_MAP[cat] || 'other';
+                items.forEach(item => {
+                    const key = gshopCat + '|' + item;
+                    if (aggregate.has(key)) {
+                        aggregate.get(key).q += 1;
+                    } else {
+                        aggregate.set(key, { n: item, q: 1, c: gshopCat });
+                    }
+                });
+            });
+        });
+    });
+
+    const items = [...aggregate.values()];
+    const planName = `MedMeal ${planDuration}-day plan`;
+    const data = {
+        t: 'list',
+        name: planName,
+        items: items,
+        d: buildGshopDietaryTags()
+    };
+
+    // Match GShop's encoding: btoa(unescape(encodeURIComponent(JSON.stringify(data))))
+    const json = JSON.stringify(data);
+    const encoded = btoa(unescape(encodeURIComponent(json)));
+    return `${GSHOP_URL}/?share=${encoded}`;
+}
+
+function sendToGshop() {
+    const url = buildGshopShareUrl();
+    if (!url) {
+        alert('Generate a meal plan first, then try again.');
+        return;
+    }
+    window.open(url, '_blank', 'noopener');
+}
+
+function copyGshopLink() {
+    const url = buildGshopShareUrl();
+    if (!url) {
+        alert('Generate a meal plan first, then try again.');
+        return;
+    }
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('copyGshopBtn');
+        if (btn) {
+            const original = btn.innerHTML;
+            btn.innerHTML = '&#10003; Copied!';
+            setTimeout(() => { btn.innerHTML = original; }, 1500);
+        }
+    }).catch(() => {
+        prompt('Copy this link:', url);
+    });
+}
+
+// ============================================================
 // GROCERY LIST
 // ============================================================
 function renderGroceryList() {
@@ -750,7 +845,19 @@ function renderGroceryList() {
         grains: 'Grains & Breads', dairy: 'Dairy & Alternatives', nuts: 'Nuts & Seeds', pantry: 'Pantry Staples'
     };
 
-    let html = '';
+    let html = `
+        <div class="gshop-banner">
+            <div class="gshop-banner-text">
+                <strong>&#128722; Shop with GShop</strong>
+                <p>Send this list to GShop to find nearby stores, compare prices, and check items off.</p>
+            </div>
+            <div class="gshop-banner-actions">
+                <button class="btn-gshop-open" onclick="sendToGshop()">Open in GShop &rarr;</button>
+                <button class="btn-gshop-copy" id="copyGshopBtn" onclick="copyGshopLink()">&#128279; Copy Link</button>
+            </div>
+        </div>
+    `;
+
     Object.entries(categories).forEach(([cat, items]) => {
         html += `
             <div class="grocery-category">

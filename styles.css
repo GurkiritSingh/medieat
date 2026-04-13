@@ -1085,6 +1085,70 @@ main {
     margin-bottom: 8px;
 }
 
+/* GShop Banner */
+.gshop-banner {
+    background: linear-gradient(135deg, #6b21a8 0%, #9333ea 100%);
+    color: white;
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.gshop-banner-text strong {
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.gshop-banner-text p {
+    font-size: 0.85rem;
+    opacity: 0.95;
+    margin: 0;
+}
+
+.gshop-banner-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.btn-gshop-open, .btn-gshop-copy {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-gshop-open {
+    background: white;
+    color: #6b21a8;
+}
+
+.btn-gshop-open:hover {
+    background: #f3e8ff;
+    transform: translateY(-1px);
+}
+
+.btn-gshop-copy {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.btn-gshop-copy:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
 /* Meal Alerts */
 .alerts-intro {
     background: var(--card);
