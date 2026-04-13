@@ -1,10 +1,13 @@
-const CACHE_NAME = 'medieat-v1';
+const CACHE_NAME = 'medieat-v3';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './database.js',
+  './rateLimiter.js',
+  './supabase.js',
+  './auth.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
@@ -26,8 +29,20 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// Network-first: always try the network, fall back to cache if offline.
+// This prevents stale code from sticking around between deployments.
 self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
   event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request))
+    fetch(event.request)
+      .then(response => {
+        // Cache successful responses for offline use
+        if (response && response.status === 200 && response.type === 'basic') {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
