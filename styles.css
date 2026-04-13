@@ -1306,6 +1306,200 @@ main {
     border-left: 3px solid var(--border);
 }
 
+/* Account badge in header */
+.account-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.account-email {
+    color: white;
+    font-size: 0.85rem;
+    opacity: 0.9;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-account {
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.btn-account:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.header-content {
+    position: relative;
+}
+
+/* Auth modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 32px;
+    max-width: 420px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-light);
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--text);
+}
+
+.modal h2 {
+    margin-bottom: 6px;
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+.modal-sub {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.modal-info {
+    color: var(--text-light);
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+    padding: 12px;
+    background: var(--primary-light);
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.modal input {
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.modal input:focus {
+    border-color: var(--primary);
+}
+
+.auth-error {
+    color: var(--danger);
+    font-size: 0.85rem;
+    min-height: 1.2em;
+}
+
+.btn-primary-modal {
+    width: 100%;
+    padding: 12px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.btn-primary-modal:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary-modal {
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 8px;
+    transition: all 0.2s;
+}
+
+.btn-secondary-modal:hover {
+    border-color: var(--primary);
+}
+
+.modal-divider {
+    text-align: center;
+    margin: 16px 0 8px;
+    position: relative;
+}
+
+.modal-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+}
+
+.modal-divider span {
+    position: relative;
+    background: var(--card);
+    padding: 0 12px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+    .account-badge {
+        position: static;
+        margin-top: 12px;
+        justify-content: center;
+    }
+}
+
 /* Footer */
 footer {
     text-align: center;

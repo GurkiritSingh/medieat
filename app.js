@@ -22,6 +22,126 @@ let currentPlan = null;
 let currentDay = 0;
 
 // ============================================================
+// ACCOUNT MODAL
+// ============================================================
+function openAccountModal() {
+    const modal = document.getElementById('authModal');
+    const content = document.getElementById('authModalContent');
+    if (!modal || !content) return;
+
+    if (typeof currentUser !== 'undefined' && currentUser) {
+        content.innerHTML = `
+            <h2>Your Account</h2>
+            <p class="modal-sub">Signed in as <strong>${currentUser.email}</strong></p>
+            <p class="modal-info">All your conditions, allergies, favorites, macro targets and current plan sync to your account automatically.</p>
+            <button class="btn-primary-modal" onclick="manualSync()">&#8635; Sync Now</button>
+            <button class="btn-secondary-modal" onclick="handleLogout()">Sign Out</button>
+        `;
+    } else {
+        renderLoginForm();
+    }
+    modal.style.display = 'flex';
+}
+
+function closeAccountModal() {
+    const modal = document.getElementById('authModal');
+    if (modal) modal.style.display = 'none';
+}
+
+function renderLoginForm() {
+    const content = document.getElementById('authModalContent');
+    content.innerHTML = `
+        <h2>Sign In</h2>
+        <p class="modal-sub">Save your meal plans across devices.</p>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <input type="email" id="loginEmail" placeholder="Email" required autocomplete="email">
+            <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password" minlength="6">
+            <div id="authError" class="auth-error"></div>
+            <button type="submit" class="btn-primary-modal">Sign In</button>
+        </form>
+        <div class="modal-divider"><span>or</span></div>
+        <button class="btn-secondary-modal" onclick="renderSignupForm()">Create New Account</button>
+    `;
+}
+
+function renderSignupForm() {
+    const content = document.getElementById('authModalContent');
+    content.innerHTML = `
+        <h2>Create Account</h2>
+        <p class="modal-sub">Free, no credit card required.</p>
+        <form id="signupForm" onsubmit="handleSignup(event)">
+            <input type="email" id="signupEmail" placeholder="Email" required autocomplete="email">
+            <input type="password" id="signupPassword" placeholder="Password (min 6 chars)" required autocomplete="new-password" minlength="6">
+            <div id="authError" class="auth-error"></div>
+            <button type="submit" class="btn-primary-modal">Create Account</button>
+        </form>
+        <div class="modal-divider"><span>or</span></div>
+        <button class="btn-secondary-modal" onclick="renderLoginForm()">Already Have an Account</button>
+    `;
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const errorEl = document.getElementById('authError');
+    errorEl.textContent = '';
+
+    const result = await authLogIn(email, password);
+    if (result.ok) {
+        closeAccountModal();
+    } else {
+        errorEl.textContent = result.error;
+    }
+}
+
+async function handleSignup(e) {
+    e.preventDefault();
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const errorEl = document.getElementById('authError');
+    errorEl.textContent = '';
+
+    const result = await authSignUp(email, password);
+    if (result.ok) {
+        const content = document.getElementById('authModalContent');
+        content.innerHTML = `
+            <h2>Check Your Email</h2>
+            <p class="modal-sub">We sent a confirmation link to <strong>${email}</strong>.</p>
+            <p class="modal-info">Click the link in your email to verify your account, then come back and sign in.</p>
+            <button class="btn-primary-modal" onclick="renderLoginForm()">Back to Sign In</button>
+        `;
+    } else {
+        errorEl.textContent = result.error;
+    }
+}
+
+async function handleLogout() {
+    await authLogOut();
+    closeAccountModal();
+}
+
+async function manualSync() {
+    if (typeof saveProfileToCloud === 'function') {
+        await saveProfileToCloud();
+        const content = document.getElementById('authModalContent');
+        if (content) {
+            const btn = content.querySelector('.btn-primary-modal');
+            if (btn) {
+                const original = btn.innerHTML;
+                btn.innerHTML = '&#10003; Synced';
+                setTimeout(() => { btn.innerHTML = original; }, 1500);
+            }
+        }
+    }
+}
+
+// Hook to call after any state change. Defined as no-op until auth.js loads.
+function syncIfLoggedIn() {
+    if (typeof queueProfileSave === 'function') queueProfileSave();
+}
+
+// ============================================================
 // INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -62,6 +182,7 @@ function toggleCondition(id) {
         selectedConditions.push(id);
         card.classList.add('selected');
     }
+    syncIfLoggedIn();
 }
 
 function toggleAllergy(id) {
@@ -73,6 +194,7 @@ function toggleAllergy(id) {
         selectedAllergies.push(id);
         card.classList.add('selected');
     }
+    syncIfLoggedIn();
 }
 
 function addCustomAllergy() {
@@ -88,9 +210,11 @@ function addCustomAllergy() {
         card.onclick = () => {
             customAllergies = customAllergies.filter(a => a !== value);
             card.remove();
+            syncIfLoggedIn();
         };
         grid.appendChild(card);
         input.value = '';
+        syncIfLoggedIn();
     }
 }
 
@@ -114,6 +238,7 @@ function addFavoriteFood() {
         favoriteFoods.push(value);
         renderFavoriteTags();
         input.value = '';
+        syncIfLoggedIn();
     }
 }
 
@@ -124,19 +249,20 @@ function quickAddFav(btn) {
         btn.classList.add('added');
         btn.disabled = true;
         renderFavoriteTags();
+        syncIfLoggedIn();
     }
 }
 
 function removeFavorite(food) {
     favoriteFoods = favoriteFoods.filter(f => f !== food);
     renderFavoriteTags();
-    // Re-enable the suggestion chip if it exists
     document.querySelectorAll('.suggestion-chip').forEach(chip => {
         if (chip.textContent.trim().toLowerCase() === food.toLowerCase()) {
             chip.classList.remove('added');
             chip.disabled = false;
         }
     });
+    syncIfLoggedIn();
 }
 
 function renderFavoriteTags() {
@@ -164,6 +290,7 @@ function toggleMacroGoal(goal, btn) {
         macroGoals.push(goal);
         btn.classList.add('active');
     }
+    syncIfLoggedIn();
 }
 
 // ============================================================
@@ -177,6 +304,7 @@ function toggleCuisine(cuisine, btn) {
         selectedCuisines.push(cuisine);
         btn.classList.add('active');
     }
+    syncIfLoggedIn();
 }
 
 // ============================================================
@@ -197,6 +325,7 @@ function updateMacroSlider(macro) {
         label.textContent = `${prefix}${val}${unit}/day`;
         label.style.color = 'var(--primary)';
     }
+    syncIfLoggedIn();
 }
 
 // ============================================================
@@ -206,6 +335,7 @@ function updateCalorieLabel() {
     const slider = document.getElementById('calorieSlider');
     document.getElementById('calorieLabel').textContent = slider.value + ' kcal';
     calorieTarget = parseInt(slider.value);
+    syncIfLoggedIn();
 }
 
 function setMealCount(count) {
@@ -213,6 +343,7 @@ function setMealCount(count) {
     document.querySelectorAll('.meal-count-btn').forEach(btn => {
         btn.classList.toggle('active', parseInt(btn.dataset.count) === count);
     });
+    syncIfLoggedIn();
 }
 
 function setDiet(diet) {
@@ -220,6 +351,7 @@ function setDiet(diet) {
     document.querySelectorAll('.diet-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.diet === diet);
     });
+    syncIfLoggedIn();
 }
 
 function setDuration(days) {
@@ -227,6 +359,7 @@ function setDuration(days) {
     document.querySelectorAll('.duration-btn').forEach(btn => {
         btn.classList.toggle('active', parseInt(btn.dataset.days) === days);
     });
+    syncIfLoggedIn();
 }
 
 // ============================================================
@@ -266,6 +399,7 @@ function generateMealPlan() {
     currentDay = 0;
     renderResults();
     goToStep(5);
+    syncIfLoggedIn();
 }
 
 function generateDayPlan(daySeed) {
@@ -1000,6 +1134,7 @@ function renderAlerts() {
 function updateMealTime(meal, value) {
     mealAlertTimes[meal] = value;
     localStorage.setItem('mealAlertTimes', JSON.stringify(mealAlertTimes));
+    syncIfLoggedIn();
 }
 
 function requestAlertPermission() {
