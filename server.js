@@ -330,8 +330,18 @@ app.delete('/api/grocery-lists/:id', requireAuth, async (req, res) => {
 // AI ROUTES
 // ============================================================
 
+// AI availability check
+app.get('/api/ai/status', (req, res) => {
+    const hasKey = !!(process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY !== 'your-api-key-here');
+    res.json({ available: hasKey });
+});
+
 // GShop AI Shopping Assistant (no Supabase auth — standalone endpoint)
 app.post('/api/gshop/ai', async (req, res) => {
+    if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your-api-key-here') {
+        return res.status(503).json({ error: 'AI not configured — add your ANTHROPIC_API_KEY to enable this feature' });
+    }
+
     const { message, conversationHistory, dietaryFilters, allergens, budget } = req.body;
 
     if (!message) {
@@ -459,6 +469,10 @@ function checkAIRateLimit(userId) {
 
 // Generate AI meal plan
 app.post('/api/ai/meal-plan', requireAuth, async (req, res) => {
+    if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your-api-key-here') {
+        return res.status(503).json({ error: 'AI not configured — add your ANTHROPIC_API_KEY to enable this feature' });
+    }
+
     if (!checkAIRateLimit(req.user.id)) {
         return res.status(429).json({ error: 'Rate limit exceeded. Try again in an hour.' });
     }
@@ -484,6 +498,10 @@ app.post('/api/ai/meal-plan', requireAuth, async (req, res) => {
 
 // AI nutrition chat (streaming SSE)
 app.post('/api/ai/chat', requireAuth, async (req, res) => {
+    if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your-api-key-here') {
+        return res.status(503).json({ error: 'AI not configured — add your ANTHROPIC_API_KEY to enable this feature' });
+    }
+
     if (!checkAIRateLimit(req.user.id)) {
         return res.status(429).json({ error: 'Rate limit exceeded. Try again in an hour.' });
     }

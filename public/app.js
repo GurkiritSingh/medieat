@@ -14,7 +14,7 @@ let calorieTarget = 2000;
 let mealCount = 4; // 3 meals + 1 snack
 let dietPreference = 'any';
 let planDuration = 7;
-let genMethod = 'ai'; // 'ai' or 'quick'
+let genMethod = 'quick'; // 'ai' or 'quick' — defaults to quick until API key is configured
 let currentPlan = null;
 let currentDay = 0;
 
@@ -352,11 +352,11 @@ async function generateAIMealPlan() {
         }
     } catch (err) {
         console.error('AI meal plan failed:', err);
+        const isNotConfigured = err.message && (err.message.includes('not configured') || err.message.includes('API key'));
         if (typeof showToast === 'function') {
-            showToast('AI failed, using quick generation: ' + err.message);
+            showToast(isNotConfigured ? 'AI not configured yet — using quick generation' : 'AI unavailable, using quick generation');
         }
         // Fallback to algorithmic generation
-        genMethod = 'quick';
         currentPlan = [];
         for (let day = 0; day < planDuration; day++) {
             currentPlan.push(generateDayPlan(day));
@@ -364,7 +364,6 @@ async function generateAIMealPlan() {
         currentDay = 0;
         renderResults();
         goToStep(5);
-        genMethod = 'ai'; // restore
     } finally {
         clearInterval(stepInterval);
         overlay.classList.remove('active');

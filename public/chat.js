@@ -138,7 +138,12 @@ async function sendChatMessage() {
 
     } catch (err) {
         console.error('Chat error:', err);
-        bubble.innerHTML = `<em style="color:var(--error)">Error: ${escapeHtmlChat(err.message)}</em>`;
+        const isNotConfigured = err.message && (err.message.includes('not configured') || err.message.includes('API key'));
+        if (isNotConfigured) {
+            bubble.innerHTML = `<strong>AI not available yet</strong><br><br>The AI nutrition advisor needs a Claude API key to work. Once configured, you can ask me anything about nutrition tailored to your health profile.<br><br><em style="color:var(--outline)">The rest of MediEat works perfectly without it!</em>`;
+        } else {
+            bubble.innerHTML = `<em style="color:var(--error)">Error: ${escapeHtmlChat(err.message)}</em>`;
+        }
         bubble.classList.remove('streaming-bubble');
         // Remove the failed exchange from history
         if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'user') {
