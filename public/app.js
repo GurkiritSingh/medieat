@@ -14,6 +14,7 @@ let calorieTarget = 2000;
 let mealCount = 4; // 3 meals + 1 snack
 let dietPreference = 'any';
 let planDuration = 7;
+let genMethod = 'ai'; // 'ai' or 'quick'
 let currentPlan = null;
 let currentDay = 0;
 
@@ -225,6 +226,13 @@ function setDuration(days) {
     });
 }
 
+function setGenMethod(method) {
+    genMethod = method;
+    document.querySelectorAll('.gen-method-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.method === method);
+    });
+}
+
 // ============================================================
 // NAVIGATION
 // ============================================================
@@ -252,6 +260,11 @@ function switchTab(tab) {
 // MEAL PLAN GENERATION
 // ============================================================
 function generateMealPlan() {
+    if (genMethod === 'ai') {
+        generateAIMealPlan();
+        return;
+    }
+
     currentPlan = [];
 
     for (let day = 0; day < planDuration; day++) {
@@ -262,6 +275,100 @@ function generateMealPlan() {
     currentDay = 0;
     renderResults();
     goToStep(5);
+}
+
+// ============================================================
+// AI MEAL PLAN GENERATION
+// ============================================================
+async function generateAIMealPlan() {
+    const overlay = document.getElementById('aiLoadingOverlay');
+    overlay.classList.add('active');
+
+    // Animate loading steps
+    const steps = ['aiStep1', 'aiStep2', 'aiStep3'];
+    let stepIndex = 0;
+    const stepInterval = setInterval(() => {
+        stepIndex++;
+        if (stepIndex < steps.length) {
+            document.getElementById(steps[stepIndex]).classList.add('active');
+        }
+    }, 3000);
+
+    try {
+        const token = (await supabase.auth.getSession())?.data?.session?.access_token;
+
+        const response = await fetch('/api/ai/meal-plan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({
+                conditions: selectedConditions,
+                allergies: selectedAllergies,
+                customAllergies: customAllergies,
+                favoriteFoods: favoriteFoods,
+                dietPreference: dietPreference,
+                calorieTarget: calorieTarget,
+                mealCount: mealCount,
+                cuisines: selectedCuisines,
+                macroTargets: macroTargets,
+                macroGoals: macroGoals,
+                planDuration: planDuration
+            })
+        });
+
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || 'AI generation failed');
+        }
+
+        const plan = await response.json();
+
+        // Validate plan structure
+        if (!Array.isArray(plan) || plan.length === 0) {
+            throw new Error('Invalid plan format received');
+        }
+
+        // Ensure each day has the RECIPES structure for renderMealCard
+        plan.forEach(day => {
+            [day.breakfast, day.lunch, day.dinner, ...(day.snacks || [])].forEach(meal => {
+                if (meal && meal.recipe) {
+                    // Register the recipe in the global RECIPES object so renderMealCard can find it
+                    if (typeof RECIPES !== 'undefined') {
+                        RECIPES[meal.name] = meal.recipe;
+                    }
+                }
+            });
+        });
+
+        currentPlan = plan;
+        currentDay = 0;
+        renderResults();
+        goToStep(5);
+
+        if (typeof showToast === 'function') {
+            showToast('AI meal plan generated!');
+        }
+    } catch (err) {
+        console.error('AI meal plan failed:', err);
+        if (typeof showToast === 'function') {
+            showToast('AI failed, using quick generation: ' + err.message);
+        }
+        // Fallback to algorithmic generation
+        genMethod = 'quick';
+        currentPlan = [];
+        for (let day = 0; day < planDuration; day++) {
+            currentPlan.push(generateDayPlan(day));
+        }
+        currentDay = 0;
+        renderResults();
+        goToStep(5);
+        genMethod = 'ai'; // restore
+    } finally {
+        clearInterval(stepInterval);
+        overlay.classList.remove('active');
+    }
 }
 
 function generateDayPlan(daySeed) {

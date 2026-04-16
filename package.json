@@ -5,13 +5,16 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "mcp": "node mcp-server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@modelcontextprotocol/sdk": "^1.28.0",
     "@supabase/supabase-js": "^2.100.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",

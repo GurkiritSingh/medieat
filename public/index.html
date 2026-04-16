@@ -268,6 +268,20 @@
                         <button class="duration-btn active" data-days="7" onclick="setDuration(7)">7 Days</button>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label>Generation Method</label>
+                    <p style="font-size:0.8rem; color:var(--on-surface-variant); margin-bottom:14px;">AI creates unique, personalized meals with full recipes. Quick uses our preset database.</p>
+                    <div class="gen-method-options">
+                        <button class="gen-method-btn active" data-method="ai" onclick="setGenMethod('ai')">
+                            <span class="material-symbols-outlined" style="font-size:20px">auto_awesome</span>
+                            AI-Powered
+                        </button>
+                        <button class="gen-method-btn" data-method="quick" onclick="setGenMethod('quick')">
+                            <span class="material-symbols-outlined" style="font-size:20px">bolt</span>
+                            Quick
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -328,11 +342,58 @@
         <p><strong>Disclaimer:</strong> This tool provides general dietary suggestions and is not a substitute for professional medical or nutritional advice. Always consult your healthcare provider before making significant dietary changes.</p>
     </footer>
 
+    <!-- AI Loading Overlay -->
+    <div class="ai-loading-overlay" id="aiLoadingOverlay">
+        <div class="ai-loading-card">
+            <div class="ai-loading-spinner"></div>
+            <h3>Generating Your Plan with AI</h3>
+            <p id="aiLoadingStatus">Analyzing your health profile and preferences...</p>
+            <div class="ai-loading-steps">
+                <div class="ai-step active" id="aiStep1">Reviewing conditions & allergies</div>
+                <div class="ai-step" id="aiStep2">Creating personalized meals</div>
+                <div class="ai-step" id="aiStep3">Calculating nutrition & recipes</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nutrition Chat Panel -->
+    <button class="chat-fab" id="chatFab" onclick="toggleChatPanel()">
+        <span class="material-symbols-outlined">nutrition</span>
+    </button>
+
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <span class="material-symbols-outlined" style="color:var(--primary)">nutrition</span>
+                <div>
+                    <h4>Nutrition Advisor</h4>
+                    <span class="chat-status">AI-powered guidance</span>
+                </div>
+            </div>
+            <button class="chat-close" onclick="toggleChatPanel()">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message assistant">
+                <div class="chat-bubble">Hi! I'm your AI nutrition advisor. Ask me anything about food, diet, or nutrition — I'll tailor my answers to your health profile. Try asking:<br><br>
+                <em>"Is avocado good for my condition?"</em><br>
+                <em>"Suggest a high-protein snack"</em><br>
+                <em>"What should I avoid eating?"</em></div>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Ask about nutrition..." onkeydown="if(event.key==='Enter')sendChatMessage()">
+            <button class="chat-send" onclick="sendChatMessage()">
+                <span class="material-symbols-outlined">send</span>
+            </button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="database.js"></script>
     <script src="app.js"></script>
     <script src="medieat-api.js"></script>
     <script src="medieat-sync.js"></script>
+    <script src="chat.js"></script>
     <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js');
