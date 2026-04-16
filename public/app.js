@@ -834,7 +834,24 @@ function renderGroceryList() {
         grains: 'Grains & Breads', dairy: 'Dairy & Alternatives', nuts: 'Nuts & Seeds', pantry: 'Pantry Staples'
     };
 
-    let html = '';
+    // Collect all items for GShop link
+    const allGroceryItems = [];
+    Object.entries(categories).forEach(([cat, items]) => {
+        [...items].forEach(item => allGroceryItems.push(item));
+    });
+
+    // GShop integration banner
+    let html = `
+        <a href="https://gurkiritsingh.github.io/GShop/" target="_blank" class="gshop-banner">
+            <div class="gshop-banner-icon">G</div>
+            <div class="gshop-banner-text">
+                <strong>Compare Prices on GShop</strong>
+                <span>Find the cheapest store for these ${allGroceryItems.length} items near you</span>
+            </div>
+            <span class="material-symbols-outlined" style="color:var(--on-primary);font-size:20px">open_in_new</span>
+        </a>
+    `;
+
     Object.entries(categories).forEach(([cat, items]) => {
         html += `
             <div class="grocery-category">

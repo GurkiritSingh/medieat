@@ -1262,6 +1262,60 @@ main {
 }
 
 /* ============================================================
+   GSHOP INTEGRATION BANNER
+   ============================================================ */
+.gshop-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    background: linear-gradient(135deg, #312e81, #4c1d95);
+    border-radius: var(--radius-xl);
+    margin-bottom: 16px;
+    text-decoration: none;
+    color: white;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(49,46,129,0.3);
+}
+
+.gshop-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(49,46,129,0.4);
+}
+
+.gshop-banner-icon {
+    width: 42px;
+    height: 42px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.gshop-banner-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.gshop-banner-text strong {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.gshop-banner-text span {
+    font-size: 0.78rem;
+    opacity: 0.8;
+}
+
+/* ============================================================
    HEALTH TIPS
    ============================================================ */
 .tip-card {
