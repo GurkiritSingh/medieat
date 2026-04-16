@@ -297,11 +297,12 @@ async function generateAIMealPlan() {
     try {
         const token = (await supabase.auth.getSession())?.data?.session?.access_token;
 
-        const response = await fetch('/api/ai/meal-plan', {
+        const response = await fetch(SUPABASE_URL + '/functions/v1/medieat-mealplan', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                'apikey': SUPABASE_ANON_KEY,
+                ...(token ? { 'Authorization': `Bearer ${token}` } : { 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` })
             },
             body: JSON.stringify({
                 conditions: selectedConditions,

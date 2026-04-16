@@ -81,11 +81,12 @@ async function sendChatMessage() {
     try {
         const token = (await supabase.auth.getSession())?.data?.session?.access_token;
 
-        const response = await fetch('/api/ai/chat', {
+        const response = await fetch(SUPABASE_URL + '/functions/v1/medieat-chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': token ? `Bearer ${token}` : `Bearer ${SUPABASE_ANON_KEY}`
             },
             body: JSON.stringify({
                 messages: chatHistory,
@@ -98,39 +99,11 @@ async function sendChatMessage() {
             throw new Error(err.error || 'Chat request failed');
         }
 
-        // Read SSE stream
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = '';
-
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split('\n');
-            buffer = lines.pop(); // keep incomplete line in buffer
-
-            for (const line of lines) {
-                if (line.startsWith('data: ')) {
-                    const data = line.slice(6).trim();
-                    if (data === '[DONE]') continue;
-
-                    try {
-                        const parsed = JSON.parse(data);
-                        if (parsed.error) throw new Error(parsed.error);
-                        if (parsed.text) {
-                            fullResponse += parsed.text;
-                            bubble.innerHTML = formatMarkdown(fullResponse);
-                            document.getElementById('chatMessages').scrollTop =
-                                document.getElementById('chatMessages').scrollHeight;
-                        }
-                    } catch (e) {
-                        // skip unparseable chunks
-                    }
-                }
-            }
-        }
+        const result = await response.json();
+        fullResponse = result.text || '';
+        bubble.innerHTML = formatMarkdown(fullResponse);
+        document.getElementById('chatMessages').scrollTop =
+            document.getElementById('chatMessages').scrollHeight;
 
         // Add assistant response to history
         chatHistory.push({ role: 'assistant', content: fullResponse });
