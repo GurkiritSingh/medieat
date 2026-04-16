@@ -1,5 +1,6 @@
 import "@supabase/functions-js/edge-runtime.d.ts";
 import Anthropic from "npm:@anthropic-ai/sdk@^0.39.0";
+import { checkRateLimit, getClientIP } from "../_shared/rateLimit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -44,6 +45,16 @@ Deno.serve(async (req) => {
       return new Response(
         JSON.stringify({ error: "AI not configured — add ANTHROPIC_API_KEY to Supabase secrets" }),
         { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Rate limit by IP
+    const ip = getClientIP(req);
+    const rl = await checkRateLimit(ip, "medieat-mealplan");
+    if (!rl.allowed) {
+      return new Response(
+        JSON.stringify({ error: `Rate limit exceeded. Try again in ${Math.ceil(rl.resetSeconds / 60)} minutes.` }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json", "Retry-After": String(rl.resetSeconds) } }
       );
     }
 

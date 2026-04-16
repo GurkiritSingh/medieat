@@ -142,12 +142,18 @@ function renderFavoriteTags() {
         container.innerHTML = '<p class="no-favorites">No favorites added yet. Add foods you enjoy above!</p>';
         return;
     }
-    container.innerHTML = favoriteFoods.map(food => `
-        <span class="favorite-tag">
-            ${food}
-            <button class="remove-fav" onclick="removeFavorite('${food.replace(/'/g, "\\'")}')">&times;</button>
-        </span>
-    `).join('');
+    container.innerHTML = '';
+    favoriteFoods.forEach(food => {
+        const span = document.createElement('span');
+        span.className = 'favorite-tag';
+        span.textContent = food;
+        const btn = document.createElement('button');
+        btn.className = 'remove-fav';
+        btn.textContent = '\u00D7';
+        btn.addEventListener('click', () => removeFavorite(food));
+        span.appendChild(btn);
+        container.appendChild(span);
+    });
 }
 
 // ============================================================

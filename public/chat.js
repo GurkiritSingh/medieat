@@ -42,8 +42,9 @@ function escapeHtmlChat(text) {
 }
 
 function formatMarkdown(text) {
-    // Basic markdown: bold, italic, line breaks
-    return text
+    // Escape HTML first to prevent XSS, then apply markdown
+    const escaped = escapeHtmlChat(text);
+    return escaped
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.+?)\*/g, '<em>$1</em>')
         .replace(/\n/g, '<br>');

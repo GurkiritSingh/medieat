@@ -7,7 +7,15 @@ const { supabase, supabaseAdmin } = require('./supabaseClient');
 const { generateMealPlan, streamChat } = require('./ai-client');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: [
+        'https://gurkiritsingh.github.io',
+        'http://localhost:3000',
+        'http://localhost:5173',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
